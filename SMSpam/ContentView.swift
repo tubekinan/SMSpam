@@ -66,29 +66,8 @@ private extension RulesConfig {
 // MARK: - ContentView
 
 struct ContentView: View {
-    @State private var selectedTab = 0
-
     var body: some View {
-        TabView(selection: $selectedTab) {
-            HomeView()
-                .tabItem {
-                    Label("Ana Sayfa", systemImage: "house.fill")
-                }
-                .tag(0)
-
-            SettingsView()
-                .tabItem {
-                    Label("Ayarlar", systemImage: "gearshape.fill")
-                }
-                .tag(1)
-
-            AboutView()
-                .tabItem {
-                    Label("Hakkında", systemImage: "info.circle.fill")
-                }
-                .tag(2)
-        }
-        .tint(Color.orange)
+        HomeView()
     }
 }
 
@@ -96,21 +75,36 @@ struct ContentView: View {
 
 struct HomeView: View {
     @State private var logs: [String] = []
+    @State private var showSettings = false
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let spamLogsKey = "spam_logs"
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 24) {
                     logoSection
                     statsSection
                     recentLogsSection
                 }
                 .padding()
             }
-            .navigationTitle("SMSpam")
             .background(Color(uiColor: .systemGroupedBackground))
+            .navigationTitle("")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .font(.title2)
+                            .foregroundColor(.orange)
+                    }
+                }
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
             .onAppear {
                 loadLogs()
             }
@@ -118,13 +112,25 @@ struct HomeView: View {
     }
 
     private var logoSection: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "shield.checkered")
-                .font(.system(size: 60))
-                .foregroundColor(.orange)
+        VStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.orange.opacity(0.8), Color.orange.opacity(0.4)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 100, height: 100)
+
+                Image(systemName: "shield.checkered")
+                    .font(.system(size: 50))
+                    .foregroundColor(.white)
+            }
 
             Text("SMSpam")
-                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .font(.system(size: 32, weight: .bold, design: .rounded))
                 .foregroundColor(.primary)
 
             Text("Spam Mesajları Engelle")
@@ -134,7 +140,8 @@ struct HomeView: View {
         .padding(.vertical, 30)
         .frame(maxWidth: .infinity)
         .background(Color(uiColor: .systemBackground))
-        .cornerRadius(16)
+        .cornerRadius(20)
+        .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
     }
 
     private var statsSection: some View {
@@ -143,53 +150,67 @@ struct HomeView: View {
                 title: "Toplam Spam",
                 value: "\(logs.count)",
                 icon: "envelope.badge.shield.half.filled",
-                color: .red
+                gradient: [Color.red.opacity(0.8), Color.red.opacity(0.5)]
             )
 
             StatCard(
                 title: "Bugün",
                 value: "0",
                 icon: "calendar",
-                color: .blue
+                gradient: [Color.blue.opacity(0.8), Color.blue.opacity(0.5)]
             )
         }
     }
 
     private var recentLogsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text("Son Spam Logları")
-                    .font(.headline)
+                    .font(.title3.bold())
                 Spacer()
                 NavigationLink("Tümü") {
                     AllLogsView()
                 }
                 .font(.subheadline)
+                .foregroundColor(.orange)
             }
 
             if logs.isEmpty {
-                VStack(spacing: 12) {
-                    Image(systemName: "checkmark.shield")
-                        .font(.system(size: 40))
-                        .foregroundColor(.green)
+                VStack(spacing: 16) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.green.opacity(0.15))
+                            .frame(width: 80, height: 80)
+
+                        Image(systemName: "checkmark.shield.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.green)
+                    }
+
                     Text("Henüz spam tespit edilmedi")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+
+                    Text("Temiz bir mesaj kutusuna sahipsin!")
+                        .font(.caption)
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 40)
                 .background(Color(uiColor: .systemBackground))
-                .cornerRadius(12)
+                .cornerRadius(16)
             } else {
                 VStack(spacing: 0) {
                     ForEach(logs.prefix(5), id: \.self) { log in
                         LogRow(log: log)
                         if log != logs.prefix(5).last {
                             Divider()
+                                .padding(.leading, 56)
                         }
                     }
                 }
                 .background(Color(uiColor: .systemBackground))
-                .cornerRadius(12)
+                .cornerRadius(16)
             }
         }
     }
@@ -204,25 +225,33 @@ struct StatCard: View {
     let title: String
     let value: String
     let icon: String
-    let color: Color
+    let gradient: [Color]
 
     var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(color)
+        VStack(spacing: 12) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(LinearGradient(colors: gradient, startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .frame(width: 50, height: 50)
+
+                Image(systemName: icon)
+                    .font(.title2)
+                    .foregroundColor(.white)
+            }
 
             Text(value)
-                .font(.system(size: 28, weight: .bold, design: .rounded))
+                .font(.system(size: 32, weight: .bold, design: .rounded))
+                .foregroundColor(.primary)
 
             Text(title)
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)
-        .padding()
+        .padding(.vertical, 20)
         .background(Color(uiColor: .systemBackground))
-        .cornerRadius(12)
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.03), radius: 8, x: 0, y: 3)
     }
 }
 
@@ -230,18 +259,31 @@ struct LogRow: View {
     let log: String
 
     var body: some View {
-        HStack {
-            Image(systemName: "exclamationmark.triangle.fill")
-                .foregroundColor(.red)
+        HStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(Color.red.opacity(0.15))
+                    .frame(width: 36, height: 36)
 
-            Text(log)
-                .font(.caption)
-                .lineLimit(2)
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.caption)
+                    .foregroundColor(.red)
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(log)
+                    .font(.subheadline)
+                    .lineLimit(2)
+
+                Text(timeAgo)
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
 
             Spacer()
 
-            Text(timeAgo)
-                .font(.caption2)
+            Image(systemName: "chevron.right")
+                .font(.caption)
                 .foregroundColor(.secondary)
         }
         .padding(.horizontal, 16)
@@ -266,6 +308,7 @@ struct AllLogsView: View {
                 LogRow(log: log)
             }
         }
+        .listStyle(.insetGrouped)
         .navigationTitle("Tüm Loglar")
         .onAppear {
             loadLogs()
@@ -281,258 +324,58 @@ struct AllLogsView: View {
 // MARK: - Settings View
 
 struct SettingsView: View {
-    @State private var whitelistSenderContainsText: String = ""
-    @State private var whitelistSenderRegexText: String = ""
-    @State private var blockedSenderContainsText: String = ""
-    @State private var senderRegexText: String = ""
-    @State private var bodyRegexText: String = ""
-    @State private var shortUrlRegexText: String = ""
-    @State private var bodyKeywordsText: String = ""
-    @State private var maxSpamLogs: Int = 200
-    @State private var showResetAlert = false
+    @Environment(\.dismiss) private var dismiss
+    @State private var showAbout = false
 
-    private let appGroupSuiteName = "group.com.inan.smspam"
-    private let spamLogsKey = "spam_logs"
-    private let rulesConfigKey = "spam_rules_config"
-
-    var body: some View {
-        NavigationStack {
-            Form {
-                whitelistSection
-                rulesSection
-                logSection
-                actionsSection
-            }
-            .navigationTitle("Ayarlar")
-            .onAppear {
-                loadRulesConfigForUI()
-            }
-        }
-    }
-
-    private var whitelistSection: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Gönderici içerik (virgül/satır ile ayır)")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                TextEditor(text: $whitelistSenderContainsText)
-                    .frame(height: 80)
-                    .font(.system(.body, design: .monospaced))
-            }
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Gönderici regex (her satır bir regex)")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                TextEditor(text: $whitelistSenderRegexText)
-                    .frame(height: 80)
-                    .font(.system(.body, design: .monospaced))
-            }
-        } header: {
-            Label("Whitelist (Asla Engelleme)", systemImage: "checkmark.shield")
-        }
-    }
-
-    private var rulesSection: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Engellenen gönderici içerik")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                TextEditor(text: $blockedSenderContainsText)
-                    .frame(height: 80)
-                    .font(.system(.body, design: .monospaced))
-            }
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Gönderici regex")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                TextEditor(text: $senderRegexText)
-                    .frame(height: 80)
-                    .font(.system(.body, design: .monospaced))
-            }
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Body regex (örn: Türkçe karakter bozukluğu)")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                TextEditor(text: $bodyRegexText)
-                    .frame(height: 80)
-                    .font(.system(.body, design: .monospaced))
-            }
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Body keyword (substring)")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                TextEditor(text: $bodyKeywordsText)
-                    .frame(height: 100)
-                    .font(.system(.body, design: .monospaced))
-            }
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Kısa URL regex")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                TextEditor(text: $shortUrlRegexText)
-                    .frame(height: 80)
-                    .font(.system(.body, design: .monospaced))
-            }
-        } header: {
-            Label("Kural Motoru", systemImage: "bolt.shield")
-        }
-    }
-
-    private var logSection: some View {
-        Section {
-            Stepper("Max spam log: \(maxSpamLogs)", value: $maxSpamLogs, in: 1...5000)
-        } header: {
-            Label("Log Ayarları", systemImage: "doc.text")
-        }
-    }
-
-    private var actionsSection: some View {
-        Section {
-            Button {
-                saveRulesConfig()
-            } label: {
-                HStack {
-                    Image(systemName: "square.and.arrow.down")
-                    Text("Kuralları Kaydet")
-                }
-            }
-            .frame(maxWidth: .infinity)
-            .foregroundColor(.white)
-            .listRowBackground(Color.orange)
-
-            Button {
-                showResetAlert = true
-            } label: {
-                HStack {
-                    Image(systemName: "arrow.counterclockwise")
-                    Text("Varsayılanlara Dön")
-                }
-            }
-            .foregroundColor(.red)
-        }
-        .alert("Emin misin?", isPresented: $showResetAlert) {
-            Button("İptal", role: .cancel) { }
-            Button("Sıfırla", role: .destructive) {
-                resetToDefaults()
-            }
-        } message: {
-            Text("Tüm ayarlar varsayılanlara dönecek. Bu işlem geri alınamaz.")
-        }
-    }
-
-    private func loadRulesConfigForUI() {
-        let defaults = UserDefaults(suiteName: appGroupSuiteName)
-        guard let data = defaults?.data(forKey: rulesConfigKey) else {
-            applyConfigToUI(RulesConfig.defaultConfig)
-            return
-        }
-
-        do {
-            let decoded = try JSONDecoder().decode(RulesConfig.self, from: data)
-            applyConfigToUI(decoded.version == 1 ? decoded : RulesConfig.defaultConfig)
-        } catch {
-            applyConfigToUI(RulesConfig.defaultConfig)
-        }
-    }
-
-    private func applyConfigToUI(_ config: RulesConfig) {
-        maxSpamLogs = max(1, config.logging.maxSpamLogs)
-        whitelistSenderContainsText = config.whitelist.senderContains.joined(separator: "\n")
-        whitelistSenderRegexText = config.whitelist.senderRegex.joined(separator: "\n")
-        blockedSenderContainsText = config.rules.blockedSenderContains.joined(separator: "\n")
-        senderRegexText = config.rules.senderRegexes.joined(separator: "\n")
-        bodyRegexText = config.rules.bodyRegexes.joined(separator: "\n")
-        shortUrlRegexText = config.rules.shortUrlRegexes.joined(separator: "\n")
-        bodyKeywordsText = config.rules.bodyKeywords.joined(separator: "\n")
-    }
-
-    private func saveRulesConfig() {
-        let whitelistContains = splitCommaNewlineTokens(whitelistSenderContainsText)
-        let whitelistRegexes = splitNewlineTokens(whitelistSenderRegexText)
-        let blockedContains = splitCommaNewlineTokens(blockedSenderContainsText)
-        let senderRegexes = splitNewlineTokens(senderRegexText)
-        let bodyRegexes = splitNewlineTokens(bodyRegexText)
-        let shortUrlRegexes = splitNewlineTokens(shortUrlRegexText)
-        let bodyKeywords = splitCommaNewlineTokens(bodyKeywordsText)
-
-        let config = RulesConfig(
-            version: 1,
-            whitelist: WhitelistConfig(senderContains: whitelistContains, senderRegex: whitelistRegexes),
-            rules: RulesConfigBody(
-                blockedSenderContains: blockedContains,
-                senderRegexes: senderRegexes,
-                bodyRegexes: bodyRegexes,
-                bodyKeywords: bodyKeywords,
-                shortUrlRegexes: shortUrlRegexes
-            ),
-            logging: LoggingConfig(maxSpamLogs: max(1, maxSpamLogs))
-        )
-
-        do {
-            let data = try JSONEncoder().encode(config)
-            let defaults = UserDefaults(suiteName: appGroupSuiteName)
-            defaults?.set(data, forKey: rulesConfigKey)
-        } catch { }
-    }
-
-    private func resetToDefaults() {
-        applyConfigToUI(RulesConfig.defaultConfig)
-        saveRulesConfig()
-    }
-
-    private func splitCommaNewlineTokens(_ text: String) -> [String] {
-        let normalized = text.replacingOccurrences(of: "\r", with: "")
-        let separators = CharacterSet(charactersIn: ",\n")
-        return normalized
-            .components(separatedBy: separators)
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() }
-            .filter { !$0.isEmpty }
-    }
-
-    private func splitNewlineTokens(_ text: String) -> [String] {
-        let normalized = text.replacingOccurrences(of: "\r", with: "")
-        return normalized
-            .components(separatedBy: CharacterSet.newlines)
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty }
-    }
-}
-
-// MARK: - About View
-
-struct AboutView: View {
     var body: some View {
         NavigationStack {
             List {
-                appInfoSection
-                featuresSection
-                legalSection
+                logoHeader
+                whitelistSection
+                rulesSection
+                logSection
+                aboutSection
             }
-            .navigationTitle("Hakkında")
+            .listStyle(.insetGrouped)
+            .navigationTitle("Ayarlar")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Kaydet") {
+                        dismiss()
+                    }
+                    .fontWeight(.semibold)
+                    .foregroundColor(.orange)
+                }
+            }
+            .sheet(isPresented: $showAbout) {
+                AboutView()
+            }
         }
     }
 
-    private var appInfoSection: some View {
+    private var logoHeader: some View {
         Section {
-            HStack {
-                Image(systemName: "shield.checkered")
-                    .font(.system(size: 50))
-                    .foregroundColor(.orange)
-                    .frame(width: 80)
+            HStack(spacing: 16) {
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.orange.opacity(0.8), Color.orange.opacity(0.4)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 60, height: 60)
 
-                VStack(alignment: .leading, spacing: 4) {
+                    Image(systemName: "shield.checkered")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                }
+
+                VStack(alignment: .leading, spacing: 2) {
                     Text("SMSpam")
                         .font(.title2.bold())
-                    Text("Spam Mesaj Engelleyici")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
                     Text("Versiyon 1.0.0")
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -542,22 +385,625 @@ struct AboutView: View {
         }
     }
 
-    private var featuresSection: some View {
-        Section("Özellikler") {
-            FeatureRow(icon: "bolt.shield", title: "Otomatik Spam Tespiti", desc: "SMS mesajlarınızı otomatik analiz eder")
-            FeatureRow(icon: "text.badge.checkmark", title: "Özelleştirilebilir Kurallar", desc: "Kendi kurallarınızı oluşturun")
-            FeatureRow(icon: "whitelist", title: "Whitelist Desteği", desc: "Güvenli numaraları listeye ekleyin")
-            FeatureRow(icon: "bell.badge", title: "Anlık Bildirimler", desc: "Spam tespit edildiğinde bilgilendirin")
+    private var whitelistSection: some View {
+        Section {
+            NavigationLink {
+                WhitelistEditorView()
+            } label: {
+                Label("Whitelist Yönetimi", systemImage: "checkmark.shield")
+            }
+
+            Text("Güvenilir göndericileri buradan ekleyin. Bu numaralar asla engellenmez.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        } header: {
+            Label("Whitelist", systemImage: "whitelist")
         }
     }
 
-    private var legalSection: some View {
-        Section("Yasal") {
-            NavigationLink("Gizlilik Politikası") {
-                PrivacyPolicyView()
+    private var rulesSection: some View {
+        Section {
+            NavigationLink {
+                BlockedSendersView()
+            } label: {
+                Label("Engellenen Göndericiler", systemImage: "hand.raised.fill")
             }
-            NavigationLink("Kullanım Koşulları") {
+
+            NavigationLink {
+                SenderRegexView()
+            } label: {
+                Label("Gönderici Regex", systemImage: "number")
+            }
+
+            Text("Gönderici numarasına uygulanan regex kuralları.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+            NavigationLink {
+                BodyRegexView()
+            } label: {
+                Label("İçerik Regex", systemImage: "text.alignleft")
+            }
+
+            Text("Mesaj içeriğine uygulanan regex kuralları. Örn: Türkçe karakter bozukluğu.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+            NavigationLink {
+                BodyKeywordsView()
+            } label: {
+                Label("İçerik Anahtar Kelimeler", systemImage: "text.word.spacing")
+            }
+
+            Text("Spam içerebilecek anahtar kelimeler. Büyük/küçük harf duyarsız.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+            NavigationLink {
+                ShortUrlRegexView()
+            } label: {
+                Label("Kısa URL Regex", systemImage: "link")
+            }
+
+            Text("Şüpheli kısa URL kalıpları. t2m.io, bit.ly gibi adresler.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        } header: {
+            Label("Kural Motoru", systemImage: "bolt.shield.fill")
+        }
+    }
+
+    private var logSection: some View {
+        Section {
+            NavigationLink {
+                LogSettingsView()
+            } label: {
+                Label("Log Ayarları", systemImage: "doc.text")
+            }
+        } header: {
+            Label("Log", systemImage: "doc.text")
+        }
+    }
+
+    private var aboutSection: some View {
+        Section {
+            Button {
+                showAbout = true
+            } label: {
+                Label("Hakkında", systemImage: "info.circle")
+            }
+
+            NavigationLink {
+                PrivacyPolicyView()
+            } label: {
+                Label("Gizlilik Politikası", systemImage: "lock.shield")
+            }
+
+            NavigationLink {
                 TermsView()
+            } label: {
+                Label("Kullanım Koşulları", systemImage: "doc.plaintext")
+            }
+        } header: {
+            Label("Bilgi", systemImage: "info.circle")
+        }
+    }
+}
+
+// MARK: - List Editor Views
+
+struct WhitelistEditorView: View {
+    @State private var senderContains: [String] = []
+    @State private var senderRegex: [String] = []
+    @State private var newSenderContains = ""
+    @State private var newSenderRegex = ""
+    @State private var showAddContains = false
+    @State private var showAddRegex = false
+
+    private let appGroupSuiteName = "group.com.inan.smspam"
+    private let rulesConfigKey = "spam_rules_config"
+
+    var body: some View {
+        List {
+            Section("Gönderici İçerikleri") {
+                ForEach(senderContains, id: \.self) { item in
+                    Text(item)
+                        .font(.body.monospaced())
+                }
+                .onDelete { indexSet in
+                    senderContains.remove(atOffsets: indexSet)
+                }
+
+                Button {
+                    showAddContains = true
+                } label: {
+                    Label("Ekle", systemImage: "plus.circle.fill")
+                        .foregroundColor(.orange)
+                }
+            }
+
+            Section("Gönderici Regex") {
+                ForEach(senderRegex, id: \.self) { item in
+                    Text(item)
+                        .font(.body.monospaced())
+                }
+                .onDelete { indexSet in
+                    senderRegex.remove(atOffsets: indexSet)
+                }
+
+                Button {
+                    showAddRegex = true
+                } label: {
+                    Label("Ekle", systemImage: "plus.circle.fill")
+                        .foregroundColor(.orange)
+                }
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Whitelist")
+        .onAppear(perform: loadConfig)
+        .onDisappear(perform: saveConfig)
+        .alert("Ekle", isPresented: $showAddContains) {
+            TextField("Gönderici içeriği", text: $newSenderContains)
+            Button("İptal", role: .cancel) { newSenderContains = "" }
+            Button("Ekle") {
+                if !newSenderContains.isEmpty {
+                    senderContains.append(newSenderContains.lowercased())
+                    newSenderContains = ""
+                }
+            }
+        }
+        .alert("Ekle", isPresented: $showAddRegex) {
+            TextField("Regex pattern", text: $newSenderRegex)
+            Button("İptal", role: .cancel) { newSenderRegex = "" }
+            Button("Ekle") {
+                if !newSenderRegex.isEmpty {
+                    senderRegex.append(newSenderRegex)
+                    newSenderRegex = ""
+                }
+            }
+        }
+    }
+
+    private func loadConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        senderContains = config.whitelist.senderContains
+        senderRegex = config.whitelist.senderRegex
+    }
+
+    private func saveConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        config.whitelist.senderContains = senderContains
+        config.whitelist.senderRegex = senderRegex
+        if let newData = try? JSONEncoder().encode(config) {
+            defaults?.set(newData, forKey: rulesConfigKey)
+        }
+    }
+}
+
+struct BlockedSendersView: View {
+    @State private var items: [String] = []
+    @State private var newItem = ""
+    @State private var showAdd = false
+
+    private let appGroupSuiteName = "group.com.inan.smspam"
+    private let rulesConfigKey = "spam_rules_config"
+
+    var body: some View {
+        List {
+            Section {
+                ForEach(items, id: \.self) { item in
+                    Text(item)
+                        .font(.body.monospaced())
+                }
+                .onDelete { indexSet in
+                    items.remove(atOffsets: indexSet)
+                }
+
+                Button {
+                    showAdd = true
+                } label: {
+                    Label("Ekle", systemImage: "plus.circle.fill")
+                        .foregroundColor(.orange)
+                }
+            } header: {
+                Text("Engellenen Gönderici İçerikleri")
+            } footer: {
+                Text("Bu içerikler gönderici adresinde geçiyorsa engellenir. Büyük/küçük harf duyarsız.")
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Engellenen Göndericiler")
+        .onAppear(perform: loadConfig)
+        .onDisappear(perform: saveConfig)
+        .alert("Yeni Ekle", isPresented: $showAdd) {
+            TextField("İçerik", text: $newItem)
+            Button("İptal", role: .cancel) { newItem = "" }
+            Button("Ekle") {
+                if !newItem.isEmpty {
+                    items.append(newItem.lowercased())
+                    newItem = ""
+                }
+            }
+        }
+    }
+
+    private func loadConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        items = config.rules.blockedSenderContains
+    }
+
+    private func saveConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        config.rules.blockedSenderContains = items
+        if let newData = try? JSONEncoder().encode(config) {
+            defaults?.set(newData, forKey: rulesConfigKey)
+        }
+    }
+}
+
+struct SenderRegexView: View {
+    @State private var items: [String] = []
+    @State private var newItem = ""
+    @State private var showAdd = false
+
+    private let appGroupSuiteName = "group.com.inan.smspam"
+    private let rulesConfigKey = "spam_rules_config"
+
+    var body: some View {
+        List {
+            Section {
+                ForEach(items, id: \.self) { item in
+                    Text(item)
+                        .font(.body.monospaced())
+                }
+                .onDelete { indexSet in
+                    items.remove(atOffsets: indexSet)
+                }
+
+                Button {
+                    showAdd = true
+                } label: {
+                    Label("Ekle", systemImage: "plus.circle.fill")
+                        .foregroundColor(.orange)
+                }
+            } header: {
+                Text("Gönderici Regex Kuralları")
+            } footer: {
+                Text("Gönderici numarasına uygulanan regex pattern'ları. Örn: \\+90[\\s\\-]?\\(?850\\)?")
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Gönderici Regex")
+        .onAppear(perform: loadConfig)
+        .onDisappear(perform: saveConfig)
+        .alert("Yeni Regex Ekle", isPresented: $showAdd) {
+            TextField("Regex pattern", text: $newItem)
+            Button("İptal", role: .cancel) { newItem = "" }
+            Button("Ekle") {
+                if !newItem.isEmpty {
+                    items.append(newItem)
+                    newItem = ""
+                }
+            }
+        }
+    }
+
+    private func loadConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        items = config.rules.senderRegexes
+    }
+
+    private func saveConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        config.rules.senderRegexes = items
+        if let newData = try? JSONEncoder().encode(config) {
+            defaults?.set(newData, forKey: rulesConfigKey)
+        }
+    }
+}
+
+struct BodyRegexView: View {
+    @State private var items: [String] = []
+    @State private var newItem = ""
+    @State private var showAdd = false
+
+    private let appGroupSuiteName = "group.com.inan.smspam"
+    private let rulesConfigKey = "spam_rules_config"
+
+    var body: some View {
+        List {
+            Section {
+                ForEach(items, id: \.self) { item in
+                    Text(item)
+                        .font(.body.monospaced())
+                }
+                .onDelete { indexSet in
+                    items.remove(atOffsets: indexSet)
+                }
+
+                Button {
+                    showAdd = true
+                } label: {
+                    Label("Ekle", systemImage: "plus.circle.fill")
+                        .foregroundColor(.orange)
+                }
+            } header: {
+                Text("İçerik Regex Kuralları")
+            } footer: {
+                Text("Mesaj içeriğine uygulanan regex. Örn: Türkçe karakter bozukluğu tespiti için [A-Z]+i[A-Z]+")
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("İçerik Regex")
+        .onAppear(perform: loadConfig)
+        .onDisappear(perform: saveConfig)
+        .alert("Yeni Regex Ekle", isPresented: $showAdd) {
+            TextField("Regex pattern", text: $newItem)
+            Button("İptal", role: .cancel) { newItem = "" }
+            Button("Ekle") {
+                if !newItem.isEmpty {
+                    items.append(newItem)
+                    newItem = ""
+                }
+            }
+        }
+    }
+
+    private func loadConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        items = config.rules.bodyRegexes
+    }
+
+    private func saveConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        config.rules.bodyRegexes = items
+        if let newData = try? JSONEncoder().encode(config) {
+            defaults?.set(newData, forKey: rulesConfigKey)
+        }
+    }
+}
+
+struct BodyKeywordsView: View {
+    @State private var items: [String] = []
+    @State private var newItem = ""
+    @State private var showAdd = false
+
+    private let appGroupSuiteName = "group.com.inan.smspam"
+    private let rulesConfigKey = "spam_rules_config"
+
+    var body: some View {
+        List {
+            Section {
+                ForEach(items, id: \.self) { item in
+                    Text(item)
+                        .font(.body.monospaced())
+                }
+                .onDelete { indexSet in
+                    items.remove(atOffsets: indexSet)
+                }
+
+                Button {
+                    showAdd = true
+                } label: {
+                    Label("Ekle", systemImage: "plus.circle.fill")
+                        .foregroundColor(.orange)
+                }
+            } header: {
+                Text("İçerik Anahtar Kelimeleri")
+            } footer: {
+                Text("Spam mesajlarda sık geçen kelimeler. Büyük/küçük harf duyarsız eşleşir.")
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Anahtar Kelimeler")
+        .onAppear(perform: loadConfig)
+        .onDisappear(perform: saveConfig)
+        .alert("Yeni Kelime Ekle", isPresented: $showAdd) {
+            TextField("Kelime", text: $newItem)
+            Button("İptal", role: .cancel) { newItem = "" }
+            Button("Ekle") {
+                if !newItem.isEmpty {
+                    items.append(newItem.lowercased())
+                    newItem = ""
+                }
+            }
+        }
+    }
+
+    private func loadConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        items = config.rules.bodyKeywords
+    }
+
+    private func saveConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        config.rules.bodyKeywords = items
+        if let newData = try? JSONEncoder().encode(config) {
+            defaults?.set(newData, forKey: rulesConfigKey)
+        }
+    }
+}
+
+struct ShortUrlRegexView: View {
+    @State private var items: [String] = []
+    @State private var newItem = ""
+    @State private var showAdd = false
+
+    private let appGroupSuiteName = "group.com.inan.smspam"
+    private let rulesConfigKey = "spam_rules_config"
+
+    var body: some View {
+        List {
+            Section {
+                ForEach(items, id: \.self) { item in
+                    Text(item)
+                        .font(.body.monospaced())
+                }
+                .onDelete { indexSet in
+                    items.remove(atOffsets: indexSet)
+                }
+
+                Button {
+                    showAdd = true
+                } label: {
+                    Label("Ekle", systemImage: "plus.circle.fill")
+                        .foregroundColor(.orange)
+                }
+            } header: {
+                Text("Kısa URL Regex Kalıpları")
+            } footer: {
+                Text("Şüpheli kısa URL adresleri. t2m.io, bit.ly, tinyurl.com gibi linkler.")
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Kısa URL")
+        .onAppear(perform: loadConfig)
+        .onDisappear(perform: saveConfig)
+        .alert("Yeni Regex Ekle", isPresented: $showAdd) {
+            TextField("Regex pattern", text: $newItem)
+            Button("İptal", role: .cancel) { newItem = "" }
+            Button("Ekle") {
+                if !newItem.isEmpty {
+                    items.append(newItem)
+                    newItem = ""
+                }
+            }
+        }
+    }
+
+    private func loadConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        items = config.rules.shortUrlRegexes
+    }
+
+    private func saveConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        config.rules.shortUrlRegexes = items
+        if let newData = try? JSONEncoder().encode(config) {
+            defaults?.set(newData, forKey: rulesConfigKey)
+        }
+    }
+}
+
+struct LogSettingsView: View {
+    @State private var maxSpamLogs: Int = 200
+
+    private let appGroupSuiteName = "group.com.inan.smspam"
+    private let rulesConfigKey = "spam_rules_config"
+
+    var body: some View {
+        List {
+            Section {
+                Stepper("Maksimum log sayısı: \(maxSpamLogs)", value: $maxSpamLogs, in: 10...5000)
+            } footer: {
+                Text("Kaydedilecek maksimum spam log sayısı. Daha eski loglar otomatik silinir.")
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Log Ayarları")
+        .onAppear(perform: loadConfig)
+        .onDisappear(perform: saveConfig)
+    }
+
+    private func loadConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        maxSpamLogs = config.logging.maxSpamLogs
+    }
+
+    private func saveConfig() {
+        let defaults = UserDefaults(suiteName: appGroupSuiteName)
+        guard let data = defaults?.data(forKey: rulesConfigKey),
+              var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
+        config.logging.maxSpamLogs = maxSpamLogs
+        if let newData = try? JSONEncoder().encode(config) {
+            defaults?.set(newData, forKey: rulesConfigKey)
+        }
+    }
+}
+
+// MARK: - About View
+
+struct AboutView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    HStack(spacing: 16) {
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color.orange.opacity(0.8), Color.orange.opacity(0.4)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 80, height: 80)
+
+                            Image(systemName: "shield.checkered")
+                                .font(.system(size: 40))
+                                .foregroundColor(.white)
+                        }
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("SMSpam")
+                                .font(.title.bold())
+                            Text("Spam Mesaj Engelleyici")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            Text("Versiyon 1.0.0")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                }
+
+                Section("Özellikler") {
+                    FeatureRow(icon: "bolt.shield", title: "Otomatik Spam Tespiti", desc: "SMS mesajlarınızı otomatik analiz eder")
+                    FeatureRow(icon: "text.badge.checkmark", title: "Özelleştirilebilir Kurallar", desc: "Kendi kurallarınızı oluşturun")
+                    FeatureRow(icon: "whitelist", title: "Whitelist Desteği", desc: "Güvenli numaraları listeye ekleyin")
+                    FeatureRow(icon: "doc.text", title: "Detaylı Loglar", desc: "Engellenen spamları takip edin")
+                }
+            }
+            .listStyle(.insetGrouped)
+            .navigationTitle("Hakkında")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Kapat") {
+                        dismiss()
+                    }
+                }
             }
         }
     }
@@ -570,10 +1016,15 @@ struct FeatureRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.title3)
-                .foregroundColor(.orange)
-                .frame(width: 30)
+            ZStack {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.orange.opacity(0.15))
+                    .frame(width: 36, height: 36)
+
+                Image(systemName: icon)
+                    .font(.body)
+                    .foregroundColor(.orange)
+            }
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -590,18 +1041,23 @@ struct FeatureRow: View {
 struct PrivacyPolicyView: View {
     var body: some View {
         ScrollView {
-            Text("""
-            Gizlilik Politikası
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Gizlilik Politikası")
+                    .font(.title.bold())
 
-            Bu uygulama, spam mesajları engellemek için tasarlanmıştır.
+                Text("""
+                Bu uygulama, spam mesajları engellemek için tasarlanmıştır.
 
-            Veri Kullanımı:
-            - Tüm veriler cihazınızda yerel olarak işlenir
-            - Hiçbir kişisel veri dışarı gönderilmez
-            - SMS içerikleri sadece cihazınızda analiz edilir
+                **Veri Kullanımı:**
+                • Tüm veriler cihazınızda yerel olarak işlenir
+                • Hiçbir kişisel veri dışarı gönderilmez
+                • SMS içerikleri sadece cihazınızda analiz edilir
 
-            İzniniz olmadan hiçbir veri toplanmaz.
-            """)
+                **Veri Güvenliği:**
+                İzniniz olmadan hiçbir veri toplanmaz. Tüm analiz işlemleri cihazınızın kendisinde gerçekleşir.
+                """)
+                .font(.body)
+            }
             .padding()
         }
         .navigationTitle("Gizlilik Politikası")
@@ -612,19 +1068,24 @@ struct PrivacyPolicyView: View {
 struct TermsView: View {
     var body: some View {
         ScrollView {
-            Text("""
-            Kullanım Koşulları
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Kullanım Koşulları")
+                    .font(.title.bold())
 
-            Bu uygulamayı kullanarak aşağıdaki koşulları kabul etmiş olursunuz:
+                Text("""
+                Bu uygulamayı kullanarak aşağıdaki koşulları kabul etmiş olursunuz:
 
-            1. Uygulama 'olduğu gibi' sunulmaktadır.
+                **1. Sorumluluk Reddi**
+                Uygulama 'olduğu gibi' sunulmaktadır. Geliştirici, spam engellemenin %100 başarılı olacağını garanti etmez.
 
-            2. Geliştirici, spam engellemenin %100 başarılı olacağını garanti etmez.
+                **2. Yasadışı Kullanım**
+                Yasadışı amaçlarla kullanım yasaktır.
 
-            3. Yasadışı amaçlarla kullanım yasaktır.
-
-            4. Uygulama sadece kişisel kullanım içindir.
-            """)
+                **3. Kullanım Hakkı**
+                Uygulama sadece kişisel kullanım içindir.
+                """)
+                .font(.body)
+            }
             .padding()
         }
         .navigationTitle("Kullanım Koşulları")
