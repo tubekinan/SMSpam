@@ -3,12 +3,49 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 100;
 	objects = {
+
+/* Begin PBXBuildFile section */
+		5C38532F2F6BB5B60099D925 /* SpamFilterExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5C3853282F6BB5B60099D925 /* SpamFilterExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5C38532D2F6BB5B60099D925 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5C38530E2F6BB4B80099D925 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C3853272F6BB5B60099D925;
+			remoteInfo = SpamFilterExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5C3853342F6BB5B60099D925 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				5C38532F2F6BB5B60099D925 /* SpamFilterExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5C3853162F6BB4B80099D925 /* SMSpam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMSpam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C3853282F6BB5B60099D925 /* SpamFilterExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SpamFilterExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5C3853302F6BB5B60099D925 /* Exceptions for "SpamFilterExtension" folder in "SpamFilterExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5C3853272F6BB5B60099D925 /* SpamFilterExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5C3853182F6BB4B80099D925 /* SMSpam */ = {
@@ -16,15 +53,26 @@
 			path = SMSpam;
 			sourceTree = "<group>";
 		};
+		5C3853292F6BB5B60099D925 /* SpamFilterExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5C3853302F6BB5B60099D925 /* Exceptions for "SpamFilterExtension" folder in "SpamFilterExtension" target */,
+			);
+			path = SpamFilterExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		5C3853132F6BB4B80099D925 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C3853252F6BB5B60099D925 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -33,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				5C3853182F6BB4B80099D925 /* SMSpam */,
+				5C3853292F6BB5B60099D925 /* SpamFilterExtension */,
 				5C3853172F6BB4B80099D925 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				5C3853162F6BB4B80099D925 /* SMSpam.app */,
+				5C3853282F6BB5B60099D925 /* SpamFilterExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -55,20 +105,38 @@
 				5C3853122F6BB4B80099D925 /* Sources */,
 				5C3853132F6BB4B80099D925 /* Frameworks */,
 				5C3853142F6BB4B80099D925 /* Resources */,
+				5C3853342F6BB5B60099D925 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5C38532E2F6BB5B60099D925 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				5C3853182F6BB4B80099D925 /* SMSpam */,
 			);
 			name = SMSpam;
-			packageProductDependencies = (
-			);
 			productName = SMSpam;
 			productReference = 5C3853162F6BB4B80099D925 /* SMSpam.app */;
 			productType = "com.apple.product-type.application";
+		};
+		5C3853272F6BB5B60099D925 /* SpamFilterExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C3853312F6BB5B60099D925 /* Build configuration list for PBXNativeTarget "SpamFilterExtension" */;
+			buildPhases = (
+				5C3853242F6BB5B60099D925 /* Sources */,
+				5C3853252F6BB5B60099D925 /* Frameworks */,
+				5C3853262F6BB5B60099D925 /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				5C3853292F6BB5B60099D925 /* SpamFilterExtension */,
+			);
+			name = SpamFilterExtension;
+			productName = SpamFilterExtension;
+			productReference = 5C3853282F6BB5B60099D925 /* SpamFilterExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -78,9 +146,12 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2610;
-				LastUpgradeCheck = 2610;
+				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					5C3853152F6BB4B80099D925 = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+					5C3853272F6BB5B60099D925 = {
 						CreatedOnToolsVersion = 26.1.1;
 					};
 				};
@@ -94,12 +165,13 @@
 			);
 			mainGroup = 5C38530D2F6BB4B80099D925;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 100;
 			productRefGroup = 5C3853172F6BB4B80099D925 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				5C3853152F6BB4B80099D925 /* SMSpam */,
+				5C3853272F6BB5B60099D925 /* SpamFilterExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -107,25 +179,39 @@
 /* Begin PBXResourcesBuildPhase section */
 		5C3853142F6BB4B80099D925 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C3853262F6BB5B60099D925 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5C3853122F6BB4B80099D925 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C3853242F6BB5B60099D925 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5C38532E2F6BB5B60099D925 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C3853272F6BB5B60099D925 /* SpamFilterExtension */;
+			targetProxy = 5C38532D2F6BB5B60099D925 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
-		5C38531F2F6BB4BA0099D925 /* Debug */ = {
+		5C38531F2F6BB4BA0099D925 /* Debug configuration for PBXProject "SMSpam" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -160,6 +246,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = XLAC2HZ24N;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -177,18 +264,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		5C3853202F6BB4BA0099D925 /* Release */ = {
+		5C3853202F6BB4BA0099D925 /* Release configuration for PBXProject "SMSpam" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -223,6 +311,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = XLAC2HZ24N;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -234,30 +323,35 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		5C3853222F6BB4BA0099D925 /* Debug */ = {
+		5C3853222F6BB4BA0099D925 /* Debug configuration for PBXNativeTarget "SMSpam" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SMSpam/SMSpam.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SMSpam;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -275,20 +369,24 @@
 			};
 			name = Debug;
 		};
-		5C3853232F6BB4BA0099D925 /* Release */ = {
+		5C3853232F6BB4BA0099D925 /* Release configuration for PBXNativeTarget "SMSpam" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SMSpam/SMSpam.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SMSpam;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -306,25 +404,89 @@
 			};
 			name = Release;
 		};
+		5C3853322F6BB5B60099D925 /* Debug configuration for PBXNativeTarget "SpamFilterExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SpamFilterExtension/SpamFilterExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SpamFilterExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SpamFilterExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inan.SMSpam.SpamFilterExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5C3853332F6BB5B60099D925 /* Release configuration for PBXNativeTarget "SpamFilterExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SpamFilterExtension/SpamFilterExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SpamFilterExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SpamFilterExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inan.SMSpam.SpamFilterExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		5C3853112F6BB4B80099D925 /* Build configuration list for PBXProject "SMSpam" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C38531F2F6BB4BA0099D925 /* Debug */,
-				5C3853202F6BB4BA0099D925 /* Release */,
+				5C38531F2F6BB4BA0099D925 /* Debug configuration for PBXProject "SMSpam" */,
+				5C3853202F6BB4BA0099D925 /* Release configuration for PBXProject "SMSpam" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		5C3853212F6BB4BA0099D925 /* Build configuration list for PBXNativeTarget "SMSpam" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C3853222F6BB4BA0099D925 /* Debug */,
-				5C3853232F6BB4BA0099D925 /* Release */,
+				5C3853222F6BB4BA0099D925 /* Debug configuration for PBXNativeTarget "SMSpam" */,
+				5C3853232F6BB4BA0099D925 /* Release configuration for PBXNativeTarget "SMSpam" */,
 			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5C3853312F6BB5B60099D925 /* Build configuration list for PBXNativeTarget "SpamFilterExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C3853322F6BB5B60099D925 /* Debug configuration for PBXNativeTarget "SpamFilterExtension" */,
+				5C3853332F6BB5B60099D925 /* Release configuration for PBXNativeTarget "SpamFilterExtension" */,
+			);
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */

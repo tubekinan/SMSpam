@@ -1,0 +1,31 @@
+CP#1 Prompt
+
+PROJECT: SMSpam - iOS SMS Spam Filter App
+
+DESCRIPTION:
+An iOS application using Message Filter Extension to detect and filter spam SMS messages. The system marks messages as junk and prepares infrastructure for logging and monitoring filtered messages.
+
+TECH STACK:
+- Swift
+- Xcode
+- IdentityLookup Framework (Message Filter Extension)
+- App Groups (shared container)
+
+CURRENT STATE:
+- Xcode project (SMSpam) created
+- Message Filter Extension added and configured
+- Basic spam filtering logic implemented using keyword matching
+- Signing & provisioning resolved with Personal Team
+- App Group configured and shared between app and extension:
+  group.com.inan.smspam
+
+LAST COMPLETED STEP:
+- Established working extension capable of classifying messages as junk or allowed
+
+NEXT OBJECTIVE:
+- Implement shared logging system using App Group
+- Store filtered (junk) messages into shared storage (UserDefaults / file)
+- Build initial monitoring interface in the main app to display filtered messages
+
+INSTRUCTIONS FOR NEXT SESSION:
+Continue by implementing a logging mechanism inside the Message Filter Extension to persist filtered messages into the shared App Group container. Then create a basic UI in the main app to read and display this data.- Whitelist: never-block rule (highest priority).- Dynamic rules: patterns/keywords/regex loaded from shared App Group JSON config.- Log limit: spam logs capped to max to prevent unbounded growth.

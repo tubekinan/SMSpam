@@ -8,13 +8,15 @@
 import IdentityLookup
 import Foundation
 
-final class MessageFilterExtension: ILMessageFilterExtension {}
-
-extension MessageFilterExtension: ILMessageFilterQueryHandling, ILMessageFilterCapabilitiesQueryHandling {
-    // Shared keys between the main app and this extension.
+final class MessageFilterExtension: ILMessageFilterExtension {
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let spamLogsKey = "spam_logs"
     private let rulesConfigKey = "spam_rules_config"
+
+}
+
+extension MessageFilterExtension: ILMessageFilterQueryHandling, ILMessageFilterCapabilitiesQueryHandling {
+    // Shared keys between the main app and this extension.
 
     private struct RulesConfig: Codable {
         var version: Int

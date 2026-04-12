@@ -1,0 +1,26 @@
+PROJECT: iOS SMS Spam Filter App
+
+DESCRIPTION:
+An iOS application that filters incoming SMS messages using Apple's Message Filter Extension. The app classifies messages as spam (junk) or allowed, prevents unnecessary notifications indirectly via system filtering, and provides a monitoring interface listing filtered messages.
+
+TECH STACK:
+- Swift
+- Xcode
+- IdentityLookup Framework (Message Filter Extension)
+- App Groups (shared storage)
+
+CURRENT STATE:
+- No project created yet
+- No extension implemented
+- No UI exists
+
+LAST COMPLETED STEP:
+- Defined project architecture and development roadmap
+
+NEXT OBJECTIVE:
+- Create Xcode project
+- Add Message Filter Extension target
+- Configure App Groups capability for both app and extension
+
+INSTRUCTIONS FOR NEXT SESSION:
+Continue by setting up the base Xcode project and integrating the Message Filter Extension. Ensure App Group is configured correctly, as it will be required for shared logging later.- Whitelist (asla engelleme) support: whitelisted sender/regex is always allowed (highest priority).- Dynamic rule engine: rules/regex/keywords loaded from shared App Group JSON config (no per-keyword hardcode rebuild).- Spam log limit: extension caps stored spam logs to max value to prevent unbounded growth.
