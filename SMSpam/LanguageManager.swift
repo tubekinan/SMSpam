@@ -75,6 +75,27 @@ class BundleLanguage {
     ]
 }
 
+struct LocalizedText: View {
+    let key: String
+    @ObservedObject private var langManager = LanguageManager.shared
+    
+    var body: some View {
+        Text(Localization.local(key))
+            .id(langManager.currentLanguage)
+    }
+}
+
+struct LocalizedLabel: View {
+    let key: String
+    let systemImage: String
+    @ObservedObject private var langManager = LanguageManager.shared
+    
+    var body: some View {
+        Label(Localization.local(key), systemImage: systemImage)
+            .id(langManager.currentLanguage)
+    }
+}
+
 func L(_ key: String) -> String {
     return Localization.local(key)
 }

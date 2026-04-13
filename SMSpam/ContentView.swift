@@ -139,6 +139,7 @@ struct HomeView: View {
     @State private var showSettings = false
     @State private var selectedLog: String?
     @State private var scrollOffset: CGFloat = 0
+    @StateObject private var languageManager = LanguageManager.shared
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let spamLogsKey = "spam_logs"
 
@@ -152,6 +153,7 @@ struct HomeView: View {
                         recentLogsSection
                     }
                     .padding()
+                    .id(languageManager.currentLanguage)
                     .background(
                         GeometryReader { geo in
                             Color.clear.preference(
