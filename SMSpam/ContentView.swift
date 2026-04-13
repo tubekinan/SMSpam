@@ -624,23 +624,38 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                settingsHeader
-                    .padding(.horizontal)
-                    .padding(.top, 8)
-                    .padding(.bottom, 12)
-
-                List {
-                    whitelistSection
-                    rulesSection
-                    logSection
-                    aboutSection
-                }
-                .listStyle(.insetGrouped)
+            List {
+                whitelistSection
+                rulesSection
+                logSection
+                aboutSection
             }
-            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
+            .listStyle(.insetGrouped)
+            .navigationTitle("Ayarlar")
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    HStack(spacing: 10) {
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 36, height: 36)
+
+                            Image(systemName: "message.badge.filled.fill")
+                                .font(.system(size: 16))
+                                .foregroundColor(.white)
+                        }
+
+                        Text("SMSpam")
+                            .font(.subheadline.bold())
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Kaydet") {
                         dismiss()
@@ -649,33 +664,6 @@ struct SettingsView: View {
                     .foregroundColor(.orange)
                 }
             }
-        }
-    }
-
-    private var settingsHeader: some View {
-        HStack(spacing: 12) {
-            ZStack {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 44, height: 44)
-
-                Image(systemName: "message.badge.filled.fill")
-                    .font(.system(size: 20))
-                    .foregroundColor(.white)
-            }
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text("SMSpam")
-                    .font(.headline.bold())
-            }
-
-            Spacer()
         }
     }
 
