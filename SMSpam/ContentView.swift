@@ -524,16 +524,22 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                logoHeader
-                whitelistSection
-                rulesSection
-                logSection
-                aboutSection
+            VStack(spacing: 0) {
+                settingsHeader
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                    .padding(.bottom, 12)
+
+                List {
+                    whitelistSection
+                    rulesSection
+                    logSection
+                    aboutSection
+                }
+                .listStyle(.insetGrouped)
             }
-            .listStyle(.insetGrouped)
-            .navigationTitle("Ayarlar")
-            .navigationBarTitleDisplayMode(.large)
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Kaydet") {
@@ -546,36 +552,33 @@ struct SettingsView: View {
         }
     }
 
-    private var logoHeader: some View {
-        Section {
-            HStack(spacing: 12) {
-                ZStack {
-                    Circle()
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
+    private var settingsHeader: some View {
+        HStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
                         )
-                        .frame(width: 44, height: 44)
+                    )
+                    .frame(width: 44, height: 44)
 
-                    Image(systemName: "message.badge.filled.fill")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                }
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("SMSpam")
-                        .font(.headline.bold())
-                    Text("Versiyon 1.0.0")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-
-                Spacer()
+                Image(systemName: "message.badge.filled.fill")
+                    .font(.system(size: 20))
+                    .foregroundColor(.white)
             }
-            .padding(.vertical, 4)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("SMSpam")
+                    .font(.headline.bold())
+                Text("Versiyon 1.0.0")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            Spacer()
         }
     }
 
