@@ -614,17 +614,8 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                whitelistSection
-                rulesSection
-                logSection
-                aboutSection
-            }
-            .listStyle(.insetGrouped)
-            .navigationTitle("Ayarlar")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    HStack(spacing: 10) {
+                Section {
+                    HStack(spacing: 12) {
                         ZStack {
                             Circle()
                                 .fill(
@@ -634,17 +625,30 @@ struct SettingsView: View {
                                         endPoint: .bottomTrailing
                                     )
                                 )
-                                .frame(width: 36, height: 36)
+                                .frame(width: 48, height: 48)
 
                             Image(systemName: "message.badge.filled.fill")
-                                .font(.system(size: 16))
+                                .font(.system(size: 22))
                                 .foregroundColor(.white)
                         }
 
                         Text("SMSpam")
-                            .font(.subheadline.bold())
+                            .font(.title3.bold())
                     }
+                    .padding(.vertical, 8)
+                    .allowsHitTesting(false)
                 }
+                .listRowBackground(Color.clear)
+
+                whitelistSection
+                rulesSection
+                logSection
+                aboutSection
+            }
+            .listStyle(.insetGrouped)
+            .navigationTitle("Ayarlar")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Kaydet") {
                         dismiss()
