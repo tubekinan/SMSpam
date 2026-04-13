@@ -9,6 +9,10 @@ import SwiftUI
 
 @main
 struct SMSpamApp: App {
+    init() {
+        _ = BundleLanguage.currentLanguage
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

@@ -86,34 +86,9 @@
 "about.feature.logging.desc" = "Track blocked spam";
 "about.contact" = "Contact";
 "about.privacy" = "Privacy Policy";
-"about.privacy.content" = """
-Privacy Policy
-
-This app is designed to block spam messages.
-
-Data Usage:
-• All data is processed locally on your device
-• No personal data is sent externally
-• SMS content is analyzed only on your device
-
-Data Security:
-No data is collected without your permission. All analysis is performed on your device itself.
-""";
+"about.privacy.content" = "Privacy Policy\n\nThis app is designed to block spam messages.\n\nData Usage:\n• All data is processed locally on your device\n• No personal data is sent externally\n• SMS content is analyzed only on your device\n\nData Security:\nNo data is collected without your permission. All analysis is performed on your device itself.";
 "about.terms" = "Terms of Service";
-"about.terms.content" = """
-Terms of Service
-
-By using this app, you accept the following terms:
-
-1. Disclaimer
-The app is provided 'as is'. Developer does not guarantee that spam blocking will be 100% successful.
-
-2. Illegal Use
-Illegal use is prohibited.
-
-3. Usage Rights
-The app is for personal use only.
-""";
+"about.terms.content" = "Terms of Service\n\nBy using this app, you accept the following terms:\n\n1. Disclaimer\nThe app is provided 'as is'. Developer does not guarantee that spam blocking will be 100% successful.\n\n2. Illegal Use\nIllegal use is prohibited.\n\n3. Usage Rights\nThe app is for personal use only.";
 
 /* Time */
 "time.just.now" = "Just now";

@@ -61,6 +61,17 @@ private extension RulesConfig {
     }()
 }
 
+struct AppLogo: View {
+    let size: CGFloat
+    
+    var body: some View {
+        Image("AppLogo")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: size, height: size)
+    }
+}
+
 // MARK: - ContentView
 
 struct ContentView: View {
@@ -99,22 +110,7 @@ struct SplashView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                ZStack {
-                    Circle()
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .frame(width: 120, height: 120)
-                        .shadow(color: .red.opacity(0.4), radius: 25, x: 0, y: 10)
-                    
-                    Image(systemName: "message.badge.filled.fill")
-                        .font(.system(size: 55))
-                        .foregroundColor(.white)
-                }
+                AppLogo(size: 120)
                 
                 Text(L("app.name"))
                     .font(.system(size: 40, weight: .bold, design: .rounded))
@@ -202,22 +198,7 @@ struct HomeView: View {
 
     private var logoSection: some View {
         VStack(spacing: 12) {
-            ZStack {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 100, height: 100)
-                    .shadow(color: .red.opacity(0.3), radius: 15, x: 0, y: 8)
-
-                Image(systemName: "message.badge.filled.fill")
-                    .font(.system(size: 45))
-                    .foregroundColor(.white)
-            }
+            AppLogo(size: 100)
 
             Text(L("app.name"))
                 .font(.system(size: 32, weight: .bold, design: .rounded))
@@ -300,21 +281,7 @@ struct HomeView: View {
 
     private var miniLogoView: some View {
         HStack(spacing: 8) {
-            ZStack {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 32, height: 32)
-
-                Image(systemName: "message.badge.filled.fill")
-                    .font(.system(size: 14))
-                    .foregroundColor(.white)
-            }
+            AppLogo(size: 32)
 
             Text(L("app.name"))
                 .font(.system(size: 17, weight: .bold, design: .rounded))
@@ -622,34 +589,8 @@ struct SettingsView: View {
                 aboutSection
             }
             .listStyle(.insetGrouped)
-            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .navigationTitle(L("settings.title"))
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    HStack(spacing: 10) {
-                        ZStack {
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                                .frame(width: 36, height: 36)
-
-                            Image(systemName: "message.badge.filled.fill")
-                                .font(.system(size: 16))
-                                .foregroundColor(.white)
-                        }
-
-                        Text(L("app.name"))
-                            .font(.headline.bold())
-                    }
-                    .allowsHitTesting(false)
-                }
-
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(L("save")) {
                         dismiss()
@@ -669,7 +610,7 @@ struct SettingsView: View {
                 }
             }
             .onChange(of: languageManager.currentLanguage) { _, newValue in
-                BundleLanguage.setLanguage(newValue)
+                Localization.setLanguage(newValue)
             }
         } header: {
             Label(L("settings.language"), systemImage: "globe")
@@ -1331,21 +1272,7 @@ struct AboutView: View {
         List {
             Section {
                 HStack(spacing: 16) {
-                    ZStack {
-                        Circle()
-                            .fill(
-                                LinearGradient(
-                                    colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .frame(width: 80, height: 80)
-
-                        Image(systemName: "message.badge.filled.fill")
-                            .font(.system(size: 40))
-                            .foregroundColor(.white)
-                    }
+                    AppLogo(size: 80)
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text(L("app.name"))
