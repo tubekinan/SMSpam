@@ -259,7 +259,7 @@ struct HomeView: View {
                     Text("Son Spam Logları")
                         .font(.title3.bold())
                     if !logs.isEmpty {
-                        Text("\(logs.prefix(5).count) sonuç gösteriliyor")
+                        Text("\(min(logs.count, 5)) spam")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -286,8 +286,8 @@ struct HomeView: View {
             if logs.isEmpty {
                 EmptyStateView()
             } else {
-                LazyVStack(spacing: 12) {
-                    ForEach(logs.prefix(5), id: \.self) { log in
+                VStack(spacing: 12) {
+                    ForEach(Array(logs.prefix(5)), id: \.self) { log in
                         SpamLogCard(log: log)
                             .onTapGesture {
                                 selectedLog = log
