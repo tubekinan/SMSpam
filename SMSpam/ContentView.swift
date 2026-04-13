@@ -667,20 +667,6 @@ struct SettingsView: View {
                 Label("Hakkında", systemImage: "info.circle")
             }
 
-            Link(destination: URL(string: "mailto:inantubek@icloud.com")!) {
-                HStack {
-                    Label("İletişim", systemImage: "envelope")
-                    Spacer()
-                    Text("inantubek@icloud.com")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Image(systemName: "arrow.up.right")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-            }
-            .foregroundColor(.primary)
-
             NavigationLink {
                 PrivacyPolicyView()
             } label: {
