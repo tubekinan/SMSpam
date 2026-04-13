@@ -20,7 +20,7 @@ Your support helps keep this project alive and improving!
 
 | Home Screen | Settings |
 |:-----------:|:--------:|
-| ![Home](screenshots/SMSpam-SS-Home.PNG) | ![Settings](screenshots/SMSpam-SS-Settings.PNG) |
+| ![Home](screenshots/SMSpam-SS-Settings.PNG) | ![Settings](screenshots/SMSpam-SS-Home.PNG) |
 
 ## About
 
