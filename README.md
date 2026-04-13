@@ -7,14 +7,6 @@ A powerful iOS application that automatically detects and blocks spam SMS messag
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Platform](https://img.shields.io/badge/Platform-iOS-lightgrey)
 
-## Support
-
-If SMSpam is useful to you, consider supporting its development:
-
-[![GitHub Sponsors](https://img.shields.io/badge/GitHub_Sponsors-Support-ea4aaa?style=for-the-badge&logo=github-sponsors)](https://github.com/sponsors/tubekinan)
-
-Your support helps keep this project alive and improving!
-
 ## Connect
 
 [![X (Twitter)](https://img.shields.io/badge/X-Profile-000000?style=for-the-badge&logo=x)](https://x.com/InanTubek)
