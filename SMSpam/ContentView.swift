@@ -8,8 +8,6 @@
 import SwiftUI
 import Foundation
 
-// MARK: - Models (file scope)
-
 private struct RulesConfig: Codable {
     var version: Int
     var whitelist: WhitelistConfig
@@ -76,18 +74,39 @@ struct ContentView: View {
 struct HomeView: View {
     @State private var logs: [String] = []
     @State private var showSettings = false
+    @State private var selectedLog: String?
+    @State private var scrollOffset: CGFloat = 0
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let spamLogsKey = "spam_logs"
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) {
-                    logoSection
-                    statsSection
-                    recentLogsSection
+            ZStack(alignment: .topLeading) {
+                ScrollView {
+                    VStack(spacing: 24) {
+                        logoSection
+                        statsSection
+                        recentLogsSection
+                    }
+                    .padding()
+                    .background(
+                        GeometryReader { geo in
+                            Color.clear.preference(
+                                key: ScrollOffsetKey.self,
+                                value: geo.frame(in: .named("scroll")).minY
+                            )
+                        }
+                    )
                 }
-                .padding()
+                .coordinateSpace(name: "scroll")
+                .onPreferenceChange(ScrollOffsetKey.self) { value in
+                    scrollOffset = value
+                }
+
+                if scrollOffset < -100 {
+                    miniLogoView
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
             }
             .background(Color(uiColor: .systemGroupedBackground))
             .navigationTitle("")
@@ -105,6 +124,9 @@ struct HomeView: View {
             .sheet(isPresented: $showSettings) {
                 SettingsView()
             }
+            .sheet(item: $selectedLog) { log in
+                LogDetailView(log: log)
+            }
             .onAppear {
                 loadLogs()
             }
@@ -117,15 +139,16 @@ struct HomeView: View {
                 Circle()
                     .fill(
                         LinearGradient(
-                            colors: [Color.orange.opacity(0.8), Color.orange.opacity(0.4)],
+                            colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
                     .frame(width: 100, height: 100)
+                    .shadow(color: .red.opacity(0.3), radius: 15, x: 0, y: 8)
 
-                Image(systemName: "shield.checkered")
-                    .font(.system(size: 50))
+                Image(systemName: "message.badge.filled.fill")
+                    .font(.system(size: 45))
                     .foregroundColor(.white)
             }
 
@@ -150,7 +173,7 @@ struct HomeView: View {
                 title: "Toplam Spam",
                 value: "\(logs.count)",
                 icon: "envelope.badge.shield.half.filled",
-                gradient: [Color.red.opacity(0.8), Color.red.opacity(0.5)]
+                gradient: [Color.red.opacity(0.85), Color.red.opacity(0.5)]
             )
 
             StatCard(
@@ -168,11 +191,13 @@ struct HomeView: View {
                 Text("Son Spam Logları")
                     .font(.title3.bold())
                 Spacer()
-                NavigationLink("Tümü") {
-                    AllLogsView()
+                if !logs.isEmpty {
+                    NavigationLink("Tümü") {
+                        AllLogsView()
+                    }
+                    .font(.subheadline.weight(.medium))
+                    .foregroundColor(.orange)
                 }
-                .font(.subheadline)
-                .foregroundColor(.orange)
             }
 
             if logs.isEmpty {
@@ -202,10 +227,13 @@ struct HomeView: View {
             } else {
                 VStack(spacing: 0) {
                     ForEach(logs.prefix(5), id: \.self) { log in
-                        LogRow(log: log)
+                        SpamLogCard(log: log)
+                            .onTapGesture {
+                                selectedLog = log
+                            }
                         if log != logs.prefix(5).last {
                             Divider()
-                                .padding(.leading, 56)
+                                .padding(.leading, 70)
                         }
                     }
                 }
@@ -215,9 +243,45 @@ struct HomeView: View {
         }
     }
 
+    private var miniLogoView: some View {
+        HStack(spacing: 8) {
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 32, height: 32)
+
+                Image(systemName: "message.badge.filled.fill")
+                    .font(.system(size: 14))
+                    .foregroundColor(.white)
+            }
+
+            Text("SMSpam")
+                .font(.system(size: 17, weight: .bold, design: .rounded))
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .background(.ultraThinMaterial)
+        .cornerRadius(20)
+        .padding(.leading, 16)
+        .padding(.top, 8)
+    }
+
     private func loadLogs() {
         let defaults = UserDefaults(suiteName: appGroupSuiteName)
         logs = defaults?.stringArray(forKey: spamLogsKey) ?? []
+    }
+}
+
+struct ScrollOffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }
 
@@ -255,28 +319,29 @@ struct StatCard: View {
     }
 }
 
-struct LogRow: View {
+struct SpamLogCard: View {
     let log: String
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 16) {
             ZStack {
                 Circle()
                     .fill(Color.red.opacity(0.15))
-                    .frame(width: 36, height: 36)
+                    .frame(width: 44, height: 44)
 
                 Image(systemName: "exclamationmark.triangle.fill")
-                    .font(.caption)
+                    .font(.system(size: 18))
                     .foregroundColor(.red)
             }
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(log)
                     .font(.subheadline)
+                    .foregroundColor(.primary)
                     .lineLimit(2)
 
                 Text(timeAgo)
-                    .font(.caption2)
+                    .font(.caption)
                     .foregroundColor(.secondary)
             }
 
@@ -284,16 +349,78 @@ struct LogRow: View {
 
             Image(systemName: "chevron.right")
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondary.opacity(0.6))
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 12)
+        .padding(.vertical, 14)
+        .contentShape(Rectangle())
     }
 
     private var timeAgo: String {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .abbreviated
         return formatter.localizedString(for: Date(), relativeTo: Date())
+    }
+}
+
+extension String: @retroactive Identifiable {
+    public var id: String { self }
+}
+
+struct LogDetailView: View {
+    let log: String
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 24) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.red.opacity(0.15))
+                            .frame(width: 80, height: 80)
+
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.red)
+                    }
+
+                    VStack(spacing: 8) {
+                        Text("Spam Mesaj")
+                            .font(.title2.bold())
+
+                        Text("Bu mesaj spam olarak tespit edildi")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Mesaj İçeriği")
+                            .font(.caption.weight(.semibold))
+                            .foregroundColor(.secondary)
+
+                        Text(log)
+                            .font(.body)
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color(uiColor: .secondarySystemBackground))
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.vertical, 32)
+            }
+            .navigationTitle("Spam Detay")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Kapat") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+        .presentationDetents([.medium])
     }
 }
 
@@ -305,10 +432,12 @@ struct AllLogsView: View {
     var body: some View {
         List {
             ForEach(logs, id: \.self) { log in
-                LogRow(log: log)
+                SpamLogCard(log: log)
+                    .onTapGesture {
+                    }
             }
         }
-        .listStyle(.insetGrouped)
+        .listStyle(.plain)
         .navigationTitle("Tüm Loglar")
         .onAppear {
             loadLogs()
@@ -325,7 +454,6 @@ struct AllLogsView: View {
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var showAbout = false
 
     var body: some View {
         NavigationStack {
@@ -348,40 +476,39 @@ struct SettingsView: View {
                     .foregroundColor(.orange)
                 }
             }
-            .sheet(isPresented: $showAbout) {
-                AboutView()
-            }
         }
     }
 
     private var logoHeader: some View {
         Section {
-            HStack(spacing: 16) {
+            HStack(spacing: 12) {
                 ZStack {
                     Circle()
                         .fill(
                             LinearGradient(
-                                colors: [Color.orange.opacity(0.8), Color.orange.opacity(0.4)],
+                                colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .frame(width: 60, height: 60)
+                        .frame(width: 44, height: 44)
 
-                    Image(systemName: "shield.checkered")
-                        .font(.title2)
+                    Image(systemName: "message.badge.filled.fill")
+                        .font(.system(size: 20))
                         .foregroundColor(.white)
                 }
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("SMSpam")
-                        .font(.title2.bold())
+                        .font(.headline.bold())
                     Text("Versiyon 1.0.0")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
+
+                Spacer()
             }
-            .padding(.vertical, 8)
+            .padding(.vertical, 4)
         }
     }
 
@@ -467,11 +594,25 @@ struct SettingsView: View {
 
     private var aboutSection: some View {
         Section {
-            Button {
-                showAbout = true
+            NavigationLink {
+                AboutView()
             } label: {
                 Label("Hakkında", systemImage: "info.circle")
             }
+
+            Link(destination: URL(string: "mailto:inantubek@icloud.com")!) {
+                HStack {
+                    Label("İletişim", systemImage: "envelope")
+                    Spacer()
+                    Text("inantubek@icloud.com")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Image(systemName: "arrow.up.right")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+            }
+            .foregroundColor(.primary)
 
             NavigationLink {
                 PrivacyPolicyView()
@@ -490,7 +631,7 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - List Editor Views
+// MARK: - List Editor Views with Swipe Actions
 
 struct WhitelistEditorView: View {
     @State private var senderContains: [String] = []
@@ -499,9 +640,16 @@ struct WhitelistEditorView: View {
     @State private var newSenderRegex = ""
     @State private var showAddContains = false
     @State private var showAddRegex = false
+    @State private var editingItem: String?
+    @State private var editingType: EditType = .contains
+    @State private var editText = ""
 
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
+
+    enum EditType {
+        case contains, regex
+    }
 
     var body: some View {
         List {
@@ -509,15 +657,29 @@ struct WhitelistEditorView: View {
                 ForEach(senderContains, id: \.self) { item in
                     Text(item)
                         .font(.body.monospaced())
-                }
-                .onDelete { indexSet in
-                    senderContains.remove(atOffsets: indexSet)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                senderContains.removeAll { $0 == item }
+                            } label: {
+                                Label("Sil", systemImage: "trash")
+                            }
+                        }
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                editingItem = item
+                                editingType = .contains
+                                editText = item
+                            } label: {
+                                Label("Düzenle", systemImage: "pencil")
+                            }
+                            .tint(.orange)
+                        }
                 }
 
                 Button {
                     showAddContains = true
                 } label: {
-                    Label("Ekle", systemImage: "plus.circle.fill")
+                    Label("Yeni Ekle", systemImage: "plus.circle.fill")
                         .foregroundColor(.orange)
                 }
             }
@@ -526,15 +688,29 @@ struct WhitelistEditorView: View {
                 ForEach(senderRegex, id: \.self) { item in
                     Text(item)
                         .font(.body.monospaced())
-                }
-                .onDelete { indexSet in
-                    senderRegex.remove(atOffsets: indexSet)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                senderRegex.removeAll { $0 == item }
+                            } label: {
+                                Label("Sil", systemImage: "trash")
+                            }
+                        }
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                editingItem = item
+                                editingType = .regex
+                                editText = item
+                            } label: {
+                                Label("Düzenle", systemImage: "pencil")
+                            }
+                            .tint(.orange)
+                        }
                 }
 
                 Button {
                     showAddRegex = true
                 } label: {
-                    Label("Ekle", systemImage: "plus.circle.fill")
+                    Label("Yeni Ekle", systemImage: "plus.circle.fill")
                         .foregroundColor(.orange)
                 }
             }
@@ -543,7 +719,7 @@ struct WhitelistEditorView: View {
         .navigationTitle("Whitelist")
         .onAppear(perform: loadConfig)
         .onDisappear(perform: saveConfig)
-        .alert("Ekle", isPresented: $showAddContains) {
+        .alert("Yeni Ekle", isPresented: $showAddContains) {
             TextField("Gönderici içeriği", text: $newSenderContains)
             Button("İptal", role: .cancel) { newSenderContains = "" }
             Button("Ekle") {
@@ -553,7 +729,7 @@ struct WhitelistEditorView: View {
                 }
             }
         }
-        .alert("Ekle", isPresented: $showAddRegex) {
+        .alert("Yeni Regex Ekle", isPresented: $showAddRegex) {
             TextField("Regex pattern", text: $newSenderRegex)
             Button("İptal", role: .cancel) { newSenderRegex = "" }
             Button("Ekle") {
@@ -561,6 +737,28 @@ struct WhitelistEditorView: View {
                     senderRegex.append(newSenderRegex)
                     newSenderRegex = ""
                 }
+            }
+        }
+        .alert("Düzenle", isPresented: .init(
+            get: { editingItem != nil },
+            set: { if !$0 { editingItem = nil } }
+        )) {
+            TextField("Değer", text: $editText)
+            Button("İptal", role: .cancel) { editingItem = nil }
+            Button("Kaydet") {
+                if let item = editingItem {
+                    switch editingType {
+                    case .contains:
+                        if let idx = senderContains.firstIndex(of: item) {
+                            senderContains[idx] = editText.lowercased()
+                        }
+                    case .regex:
+                        if let idx = senderRegex.firstIndex(of: item) {
+                            senderRegex[idx] = editText
+                        }
+                    }
+                }
+                editingItem = nil
             }
         }
     }
@@ -589,31 +787,43 @@ struct BlockedSendersView: View {
     @State private var items: [String] = []
     @State private var newItem = ""
     @State private var showAdd = false
+    @State private var editingItem: String?
+    @State private var editText = ""
 
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
         List {
-            Section {
-                ForEach(items, id: \.self) { item in
-                    Text(item)
-                        .font(.body.monospaced())
-                }
-                .onDelete { indexSet in
-                    items.remove(atOffsets: indexSet)
-                }
+            ForEach(items, id: \.self) { item in
+                Text(item)
+                    .font(.body.monospaced())
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            items.removeAll { $0 == item }
+                        } label: {
+                            Label("Sil", systemImage: "trash")
+                        }
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            editingItem = item
+                            editText = item
+                        } label: {
+                            Label("Düzenle", systemImage: "pencil")
+                        }
+                        .tint(.orange)
+                    }
+            }
+            .onDelete { indexSet in
+                items.remove(atOffsets: indexSet)
+            }
 
-                Button {
-                    showAdd = true
-                } label: {
-                    Label("Ekle", systemImage: "plus.circle.fill")
-                        .foregroundColor(.orange)
-                }
-            } header: {
-                Text("Engellenen Gönderici İçerikleri")
-            } footer: {
-                Text("Bu içerikler gönderici adresinde geçiyorsa engellenir. Büyük/küçük harf duyarsız.")
+            Button {
+                showAdd = true
+            } label: {
+                Label("Yeni Ekle", systemImage: "plus.circle.fill")
+                    .foregroundColor(.orange)
             }
         }
         .listStyle(.insetGrouped)
@@ -628,6 +838,19 @@ struct BlockedSendersView: View {
                     items.append(newItem.lowercased())
                     newItem = ""
                 }
+            }
+        }
+        .alert("Düzenle", isPresented: .init(
+            get: { editingItem != nil },
+            set: { if !$0 { editingItem = nil } }
+        )) {
+            TextField("Değer", text: $editText)
+            Button("İptal", role: .cancel) { editingItem = nil }
+            Button("Kaydet") {
+                if let item = editingItem, let idx = items.firstIndex(of: item) {
+                    items[idx] = editText.lowercased()
+                }
+                editingItem = nil
             }
         }
     }
@@ -654,31 +877,43 @@ struct SenderRegexView: View {
     @State private var items: [String] = []
     @State private var newItem = ""
     @State private var showAdd = false
+    @State private var editingItem: String?
+    @State private var editText = ""
 
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
         List {
-            Section {
-                ForEach(items, id: \.self) { item in
-                    Text(item)
-                        .font(.body.monospaced())
-                }
-                .onDelete { indexSet in
-                    items.remove(atOffsets: indexSet)
-                }
+            ForEach(items, id: \.self) { item in
+                Text(item)
+                    .font(.body.monospaced())
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            items.removeAll { $0 == item }
+                        } label: {
+                            Label("Sil", systemImage: "trash")
+                        }
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            editingItem = item
+                            editText = item
+                        } label: {
+                            Label("Düzenle", systemImage: "pencil")
+                        }
+                        .tint(.orange)
+                    }
+            }
+            .onDelete { indexSet in
+                items.remove(atOffsets: indexSet)
+            }
 
-                Button {
-                    showAdd = true
-                } label: {
-                    Label("Ekle", systemImage: "plus.circle.fill")
-                        .foregroundColor(.orange)
-                }
-            } header: {
-                Text("Gönderici Regex Kuralları")
-            } footer: {
-                Text("Gönderici numarasına uygulanan regex pattern'ları. Örn: \\+90[\\s\\-]?\\(?850\\)?")
+            Button {
+                showAdd = true
+            } label: {
+                Label("Yeni Ekle", systemImage: "plus.circle.fill")
+                    .foregroundColor(.orange)
             }
         }
         .listStyle(.insetGrouped)
@@ -693,6 +928,19 @@ struct SenderRegexView: View {
                     items.append(newItem)
                     newItem = ""
                 }
+            }
+        }
+        .alert("Düzenle", isPresented: .init(
+            get: { editingItem != nil },
+            set: { if !$0 { editingItem = nil } }
+        )) {
+            TextField("Regex", text: $editText)
+            Button("İptal", role: .cancel) { editingItem = nil }
+            Button("Kaydet") {
+                if let item = editingItem, let idx = items.firstIndex(of: item) {
+                    items[idx] = editText
+                }
+                editingItem = nil
             }
         }
     }
@@ -719,31 +967,43 @@ struct BodyRegexView: View {
     @State private var items: [String] = []
     @State private var newItem = ""
     @State private var showAdd = false
+    @State private var editingItem: String?
+    @State private var editText = ""
 
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
         List {
-            Section {
-                ForEach(items, id: \.self) { item in
-                    Text(item)
-                        .font(.body.monospaced())
-                }
-                .onDelete { indexSet in
-                    items.remove(atOffsets: indexSet)
-                }
+            ForEach(items, id: \.self) { item in
+                Text(item)
+                    .font(.body.monospaced())
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            items.removeAll { $0 == item }
+                        } label: {
+                            Label("Sil", systemImage: "trash")
+                        }
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            editingItem = item
+                            editText = item
+                        } label: {
+                            Label("Düzenle", systemImage: "pencil")
+                        }
+                        .tint(.orange)
+                    }
+            }
+            .onDelete { indexSet in
+                items.remove(atOffsets: indexSet)
+            }
 
-                Button {
-                    showAdd = true
-                } label: {
-                    Label("Ekle", systemImage: "plus.circle.fill")
-                        .foregroundColor(.orange)
-                }
-            } header: {
-                Text("İçerik Regex Kuralları")
-            } footer: {
-                Text("Mesaj içeriğine uygulanan regex. Örn: Türkçe karakter bozukluğu tespiti için [A-Z]+i[A-Z]+")
+            Button {
+                showAdd = true
+            } label: {
+                Label("Yeni Ekle", systemImage: "plus.circle.fill")
+                    .foregroundColor(.orange)
             }
         }
         .listStyle(.insetGrouped)
@@ -758,6 +1018,19 @@ struct BodyRegexView: View {
                     items.append(newItem)
                     newItem = ""
                 }
+            }
+        }
+        .alert("Düzenle", isPresented: .init(
+            get: { editingItem != nil },
+            set: { if !$0 { editingItem = nil } }
+        )) {
+            TextField("Regex", text: $editText)
+            Button("İptal", role: .cancel) { editingItem = nil }
+            Button("Kaydet") {
+                if let item = editingItem, let idx = items.firstIndex(of: item) {
+                    items[idx] = editText
+                }
+                editingItem = nil
             }
         }
     }
@@ -784,31 +1057,43 @@ struct BodyKeywordsView: View {
     @State private var items: [String] = []
     @State private var newItem = ""
     @State private var showAdd = false
+    @State private var editingItem: String?
+    @State private var editText = ""
 
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
         List {
-            Section {
-                ForEach(items, id: \.self) { item in
-                    Text(item)
-                        .font(.body.monospaced())
-                }
-                .onDelete { indexSet in
-                    items.remove(atOffsets: indexSet)
-                }
+            ForEach(items, id: \.self) { item in
+                Text(item)
+                    .font(.body.monospaced())
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            items.removeAll { $0 == item }
+                        } label: {
+                            Label("Sil", systemImage: "trash")
+                        }
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            editingItem = item
+                            editText = item
+                        } label: {
+                            Label("Düzenle", systemImage: "pencil")
+                        }
+                        .tint(.orange)
+                    }
+            }
+            .onDelete { indexSet in
+                items.remove(atOffsets: indexSet)
+            }
 
-                Button {
-                    showAdd = true
-                } label: {
-                    Label("Ekle", systemImage: "plus.circle.fill")
-                        .foregroundColor(.orange)
-                }
-            } header: {
-                Text("İçerik Anahtar Kelimeleri")
-            } footer: {
-                Text("Spam mesajlarda sık geçen kelimeler. Büyük/küçük harf duyarsız eşleşir.")
+            Button {
+                showAdd = true
+            } label: {
+                Label("Yeni Ekle", systemImage: "plus.circle.fill")
+                    .foregroundColor(.orange)
             }
         }
         .listStyle(.insetGrouped)
@@ -823,6 +1108,19 @@ struct BodyKeywordsView: View {
                     items.append(newItem.lowercased())
                     newItem = ""
                 }
+            }
+        }
+        .alert("Düzenle", isPresented: .init(
+            get: { editingItem != nil },
+            set: { if !$0 { editingItem = nil } }
+        )) {
+            TextField("Kelime", text: $editText)
+            Button("İptal", role: .cancel) { editingItem = nil }
+            Button("Kaydet") {
+                if let item = editingItem, let idx = items.firstIndex(of: item) {
+                    items[idx] = editText.lowercased()
+                }
+                editingItem = nil
             }
         }
     }
@@ -849,31 +1147,43 @@ struct ShortUrlRegexView: View {
     @State private var items: [String] = []
     @State private var newItem = ""
     @State private var showAdd = false
+    @State private var editingItem: String?
+    @State private var editText = ""
 
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
         List {
-            Section {
-                ForEach(items, id: \.self) { item in
-                    Text(item)
-                        .font(.body.monospaced())
-                }
-                .onDelete { indexSet in
-                    items.remove(atOffsets: indexSet)
-                }
+            ForEach(items, id: \.self) { item in
+                Text(item)
+                    .font(.body.monospaced())
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            items.removeAll { $0 == item }
+                        } label: {
+                            Label("Sil", systemImage: "trash")
+                        }
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            editingItem = item
+                            editText = item
+                        } label: {
+                            Label("Düzenle", systemImage: "pencil")
+                        }
+                        .tint(.orange)
+                    }
+            }
+            .onDelete { indexSet in
+                items.remove(atOffsets: indexSet)
+            }
 
-                Button {
-                    showAdd = true
-                } label: {
-                    Label("Ekle", systemImage: "plus.circle.fill")
-                        .foregroundColor(.orange)
-                }
-            } header: {
-                Text("Kısa URL Regex Kalıpları")
-            } footer: {
-                Text("Şüpheli kısa URL adresleri. t2m.io, bit.ly, tinyurl.com gibi linkler.")
+            Button {
+                showAdd = true
+            } label: {
+                Label("Yeni Ekle", systemImage: "plus.circle.fill")
+                    .foregroundColor(.orange)
             }
         }
         .listStyle(.insetGrouped)
@@ -888,6 +1198,19 @@ struct ShortUrlRegexView: View {
                     items.append(newItem)
                     newItem = ""
                 }
+            }
+        }
+        .alert("Düzenle", isPresented: .init(
+            get: { editingItem != nil },
+            set: { if !$0 { editingItem = nil } }
+        )) {
+            TextField("Regex", text: $editText)
+            Button("İptal", role: .cancel) { editingItem = nil }
+            Button("Kaydet") {
+                if let item = editingItem, let idx = items.firstIndex(of: item) {
+                    items[idx] = editText
+                }
+                editingItem = nil
             }
         }
     }
@@ -951,61 +1274,67 @@ struct LogSettingsView: View {
 // MARK: - About View
 
 struct AboutView: View {
-    @Environment(\.dismiss) private var dismiss
-
     var body: some View {
-        NavigationStack {
-            List {
-                Section {
-                    HStack(spacing: 16) {
-                        ZStack {
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [Color.orange.opacity(0.8), Color.orange.opacity(0.4)],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
+        List {
+            Section {
+                HStack(spacing: 16) {
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
                                 )
-                                .frame(width: 80, height: 80)
+                            )
+                            .frame(width: 80, height: 80)
 
-                            Image(systemName: "shield.checkered")
-                                .font(.system(size: 40))
-                                .foregroundColor(.white)
-                        }
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("SMSpam")
-                                .font(.title.bold())
-                            Text("Spam Mesaj Engelleyici")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            Text("Versiyon 1.0.0")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
+                        Image(systemName: "message.badge.filled.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.white)
                     }
-                    .padding(.vertical, 8)
-                }
 
-                Section("Özellikler") {
-                    FeatureRow(icon: "bolt.shield", title: "Otomatik Spam Tespiti", desc: "SMS mesajlarınızı otomatik analiz eder")
-                    FeatureRow(icon: "text.badge.checkmark", title: "Özelleştirilebilir Kurallar", desc: "Kendi kurallarınızı oluşturun")
-                    FeatureRow(icon: "whitelist", title: "Whitelist Desteği", desc: "Güvenli numaraları listeye ekleyin")
-                    FeatureRow(icon: "doc.text", title: "Detaylı Loglar", desc: "Engellenen spamları takip edin")
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("SMSpam")
+                            .font(.title.bold())
+                        Text("Spam Mesaj Engelleyici")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        Text("Versiyon 1.0.0")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
+                .padding(.vertical, 8)
             }
-            .listStyle(.insetGrouped)
-            .navigationTitle("Hakkında")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Kapat") {
-                        dismiss()
+
+            Section("Özellikler") {
+                FeatureRow(icon: "bolt.shield", title: "Otomatik Spam Tespiti", desc: "SMS mesajlarınızı otomatik analiz eder")
+                FeatureRow(icon: "text.badge.checkmark", title: "Özelleştirilebilir Kurallar", desc: "Kendi kurallarınızı oluşturun")
+                FeatureRow(icon: "whitelist", title: "Whitelist Desteği", desc: "Güvenli numaraları listeye ekleyin")
+                FeatureRow(icon: "doc.text", title: "Detaylı Loglar", desc: "Engellenen spamları takip edin")
+            }
+
+            Section("İletişim") {
+                Button {
+                    if let url = URL(string: "mailto:inantubek@icloud.com") {
+                        UIApplication.shared.open(url)
+                    }
+                } label: {
+                    HStack {
+                        Label("inantubek@icloud.com", systemImage: "envelope.fill")
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
                 }
             }
         }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Hakkında")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -1018,12 +1347,12 @@ struct FeatureRow: View {
         HStack(spacing: 12) {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.orange.opacity(0.15))
+                    .fill(Color.red.opacity(0.15))
                     .frame(width: 36, height: 36)
 
                 Image(systemName: icon)
                     .font(.body)
-                    .foregroundColor(.orange)
+                    .foregroundColor(.red)
             }
 
             VStack(alignment: .leading, spacing: 2) {
