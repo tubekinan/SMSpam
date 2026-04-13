@@ -255,57 +255,45 @@ struct HomeView: View {
     private var recentLogsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("Son Spam Logları")
-                    .font(.title3.bold())
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Son Spam Logları")
+                        .font(.title3.bold())
+                    if !logs.isEmpty {
+                        Text("\(logs.prefix(5).count) sonuç gösteriliyor")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
                 Spacer()
                 if !logs.isEmpty {
-                    NavigationLink("Tümü") {
+                    NavigationLink {
                         AllLogsView()
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text("Tümü")
+                            Image(systemName: "arrow.right")
+                        }
+                        .font(.subheadline.weight(.medium))
+                        .foregroundColor(.orange)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(Color.orange.opacity(0.1))
+                        .cornerRadius(8)
                     }
-                    .font(.subheadline.weight(.medium))
-                    .foregroundColor(.orange)
                 }
             }
 
             if logs.isEmpty {
-                VStack(spacing: 16) {
-                    ZStack {
-                        Circle()
-                            .fill(Color.green.opacity(0.15))
-                            .frame(width: 80, height: 80)
-
-                        Image(systemName: "checkmark.shield.fill")
-                            .font(.system(size: 40))
-                            .foregroundColor(.green)
-                    }
-
-                    Text("Henüz spam tespit edilmedi")
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-
-                    Text("Temiz bir mesaj kutusuna sahipsin!")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 40)
-                .background(Color(uiColor: .systemBackground))
-                .cornerRadius(16)
+                EmptyStateView()
             } else {
-                VStack(spacing: 0) {
+                LazyVStack(spacing: 12) {
                     ForEach(logs.prefix(5), id: \.self) { log in
                         SpamLogCard(log: log)
                             .onTapGesture {
                                 selectedLog = log
                             }
-                        if log != logs.prefix(5).last {
-                            Divider()
-                                .padding(.leading, 70)
-                        }
                     }
                 }
-                .background(Color(uiColor: .systemBackground))
-                .cornerRadius(16)
             }
         }
     }
@@ -388,38 +376,64 @@ struct StatCard: View {
 
 struct SpamLogCard: View {
     let log: String
-
-    var body: some View {
-        HStack(spacing: 16) {
-            ZStack {
-                Circle()
-                    .fill(Color.red.opacity(0.15))
-                    .frame(width: 44, height: 44)
-
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .font(.system(size: 18))
-                    .foregroundColor(.red)
-            }
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(log)
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-                    .lineLimit(2)
-
-                Text(timeAgo)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-
-            Spacer()
-
-            Image(systemName: "chevron.right")
-                .font(.caption)
-                .foregroundColor(.secondary.opacity(0.6))
+    
+    private var spamType: SpamType {
+        if log.lowercased().contains("akbank") || log.lowercased().contains("isbank") {
+            return .banking
+        } else if log.lowercased().contains("bonus") || log.lowercased().contains("slot") {
+            return .gambling
+        } else if log.lowercased().contains("t2m.io") || log.lowercased().contains("bit.ly") {
+            return .suspiciousLink
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
+        return .general
+    }
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            Rectangle()
+                .fill(spamType.color)
+                .frame(width: 4)
+            
+            HStack(spacing: 14) {
+                ZStack {
+                    Circle()
+                        .fill(spamType.color.opacity(0.15))
+                        .frame(width: 48, height: 48)
+                    
+                    Image(systemName: spamType.icon)
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(spamType.color)
+                }
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack {
+                        Text(spamType.title)
+                            .font(.caption.weight(.semibold))
+                            .foregroundColor(spamType.color)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(spamType.color.opacity(0.1))
+                            .cornerRadius(4)
+                        
+                        Spacer()
+                        
+                        Text(timeAgo)
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    Text(log)
+                        .font(.subheadline)
+                        .foregroundColor(.primary)
+                        .lineLimit(2)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+        }
+        .background(Color(uiColor: .systemBackground))
+        .cornerRadius(12)
+        .shadow(color: .black.opacity(0.03), radius: 8, x: 0, y: 2)
         .contentShape(Rectangle())
     }
 
@@ -427,6 +441,92 @@ struct SpamLogCard: View {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .abbreviated
         return formatter.localizedString(for: Date(), relativeTo: Date())
+    }
+}
+
+enum SpamType {
+    case banking
+    case gambling
+    case suspiciousLink
+    case general
+    
+    var title: String {
+        switch self {
+        case .banking: return "Banka"
+        case .gambling: return "Bahis"
+        case .suspiciousLink: return "Şüpheli Link"
+        case .general: return "Spam"
+        }
+    }
+    
+    var icon: String {
+        switch self {
+        case .banking: return "building.columns.fill"
+        case .gambling: return "dice.fill"
+        case .suspiciousLink: return "link.badge.plus"
+        case .general: return "exclamationmark.triangle.fill"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .banking: return .blue
+        case .gambling: return .purple
+        case .suspiciousLink: return .orange
+        case .general: return .red
+        }
+    }
+}
+
+struct EmptyStateView: View {
+    var body: some View {
+        VStack(spacing: 20) {
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.green.opacity(0.2), Color.green.opacity(0.1)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 100, height: 100)
+                
+                Image(systemName: "checkmark.seal.fill")
+                    .font(.system(size: 50))
+                    .foregroundColor(.green)
+            }
+            
+            VStack(spacing: 8) {
+                Text("Spam Yok!")
+                    .font(.title2.bold())
+                    .foregroundColor(.primary)
+                
+                Text("Tebrikler! Henüz spam mesaj tespit edilmedi.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            
+            HStack(spacing: 8) {
+                Image(systemName: "shield.checkered")
+                    .foregroundColor(.green)
+                Text("Mesaj kutunuz güvende")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(Color.green.opacity(0.1))
+            .cornerRadius(20)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(uiColor: .systemBackground))
+                .shadow(color: .black.opacity(0.03), radius: 10, x: 0, y: 5)
+        )
     }
 }
 
