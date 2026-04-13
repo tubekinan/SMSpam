@@ -7,6 +7,14 @@ A powerful iOS application that automatically detects and blocks spam SMS messag
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Platform](https://img.shields.io/badge/Platform-iOS-lightgrey)
 
+## Screenshots
+
+*Note: These are mockup previews. Actual screenshots will be added soon.*
+
+| Home Screen | Settings |
+|:-----------:|:--------:|
+| ![Home](screenshots/home.png) | ![Settings](screenshots/settings.png) |
+
 ## About
 
 SMSpam analyzes incoming SMS messages on your device and identifies spam using multiple detection methods including keyword filtering, regex patterns, sender analysis, and short URL detection. All processing happens locally on your device - no data is sent to external servers.
