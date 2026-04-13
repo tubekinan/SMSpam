@@ -673,9 +673,6 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("SMSpam")
                     .font(.headline.bold())
-                Text("Versiyon 1.0.0")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
             }
 
             Spacer()
