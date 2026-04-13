@@ -27,6 +27,7 @@
 
 /* Settings */
 "settings.title" = "設定";
+"settings.language" = "言語";
 "settings.whitelist" = "ホワイトリスト";
 "settings.whitelist.management" = "ホワイトリスト管理";
 "settings.whitelist.description" = "信頼できる送信者を追加してください。これらの番号は決してブロックされません。";

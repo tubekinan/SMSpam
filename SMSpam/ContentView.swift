@@ -8,14 +8,6 @@
 import SwiftUI
 import Foundation
 
-func L(_ key: String) -> String {
-    NSLocalizedString(key, comment: "")
-}
-
-func Lf(_ key: String, _ argument: CVarArg) -> String {
-    String(format: NSLocalizedString(key, comment: ""), argument)
-}
-
 private struct RulesConfig: Codable {
     var version: Int
     var whitelist: WhitelistConfig
@@ -618,10 +610,12 @@ struct AllLogsView: View {
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var languageManager = LanguageManager.shared
 
     var body: some View {
         NavigationStack {
             List {
+                languageSection
                 whitelistSection
                 rulesSection
                 logSection
@@ -664,6 +658,21 @@ struct SettingsView: View {
                     .foregroundColor(.orange)
                 }
             }
+        }
+    }
+
+    private var languageSection: some View {
+        Section {
+            Picker(L("settings.language"), selection: $languageManager.currentLanguage) {
+                ForEach(languageManager.supportedLanguages, id: \.code) { language in
+                    Text(language.nativeName).tag(language.code)
+                }
+            }
+            .onChange(of: languageManager.currentLanguage) { _, newValue in
+                BundleLanguage.setLanguage(newValue)
+            }
+        } header: {
+            Label(L("settings.language"), systemImage: "globe")
         }
     }
 

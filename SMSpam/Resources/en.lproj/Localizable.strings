@@ -27,6 +27,7 @@
 
 /* Settings */
 "settings.title" = "Settings";
+"settings.language" = "Language";
 "settings.whitelist" = "Whitelist";
 "settings.whitelist.management" = "Whitelist Management";
 "settings.whitelist.description" = "Add trusted senders here. These numbers will never be blocked.";

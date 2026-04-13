@@ -27,6 +27,7 @@
 
 /* Settings */
 "settings.title" = "Ayarlar";
+"settings.language" = "Dil";
 "settings.whitelist" = "Whitelist";
 "settings.whitelist.management" = "Whitelist Yönetimi";
 "settings.whitelist.description" = "Güvenilir göndericileri buradan ekleyin. Bu numaralar asla engellenmez.";

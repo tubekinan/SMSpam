@@ -27,6 +27,7 @@
 
 /* Settings */
 "settings.title" = "Paramètres";
+"settings.language" = "Langue";
 "settings.whitelist" = "Whitelist";
 "settings.whitelist.management" = "Gestion de la whitelist";
 "settings.whitelist.description" = "Ajoutez ici les expéditeurs de confiance. Ces numéros ne seront jamais bloqués.";

@@ -27,6 +27,7 @@
 
 /* Settings */
 "settings.title" = "设置";
+"settings.language" = "语言";
 "settings.whitelist" = "白名单";
 "settings.whitelist.management" = "白名单管理";
 "settings.whitelist.description" = "在此添加可信发件人。这些号码永远不会被拦截。";

@@ -27,6 +27,7 @@
 
 /* Settings */
 "settings.title" = "Mîhengan";
+"settings.language" = "Ziman";
 "settings.whitelist" = "Whitelist";
 "settings.whitelist.management" = "Rêvebiriya whitelist";
 "settings.whitelist.description" = "Vir re senderên bêyî yên bi Bandor zêde bikin. Ev hejmarên êdî neyên asteng kirin.";
