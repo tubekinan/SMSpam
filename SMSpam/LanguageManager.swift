@@ -27,8 +27,7 @@ class LanguageManager: ObservableObject {
         ("fr", "French", "Français"),
         ("es", "Spanish", "Español"),
         ("zh-Hans", "Chinese", "中文"),
-        ("ja", "Japanese", "日本語"),
-        ("ku", "Kurdish", "Kurdî")
+        ("ja", "Japanese", "日本語")
     ]
     
     init() {
@@ -72,7 +71,7 @@ class BundleLanguage {
     }
     
     static let supportedLanguageCodes = [
-        "tr", "en", "de", "fr", "es", "zh-Hans", "ja", "ku"
+        "tr", "en", "de", "fr", "es", "zh-Hans", "ja"
     ]
 }
 
