@@ -16,6 +16,10 @@ If SMSpam is useful to you, consider supporting its development:
 
 Your support helps keep this project alive and improving!
 
+## Connect
+
+[![X (Twitter)](https://img.shields.io/badge/X-Profile-000000?style=for-the-badge&logo=x)](https://x.com/InanTubek)
+
 ## Screenshots
 
 | Home Screen | Settings |
