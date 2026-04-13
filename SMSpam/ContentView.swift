@@ -124,11 +124,11 @@ struct SplashView: View {
                         .foregroundColor(.white)
                 }
                 
-                Text("SMSpam")
+                Text(L("app.name"))
                     .font(.system(size: 40, weight: .bold, design: .rounded))
                     .foregroundColor(.primary)
                 
-                Text("Spam Mesajları Engelle")
+                Text(L("home.spam.blocker"))
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
@@ -227,11 +227,11 @@ struct HomeView: View {
                     .foregroundColor(.white)
             }
 
-            Text("SMSpam")
+            Text(L("app.name"))
                 .font(.system(size: 32, weight: .bold, design: .rounded))
                 .foregroundColor(.primary)
 
-            Text("Spam Mesajları Engelle")
+            Text(L("home.spam.blocker"))
                 .font(.subheadline)
                 .foregroundColor(.secondary)
         }
@@ -245,14 +245,14 @@ struct HomeView: View {
     private var statsSection: some View {
         HStack(spacing: 16) {
             StatCard(
-                title: "Toplam Spam",
+                title: L("home.total.spam"),
                 value: "\(logs.count)",
                 icon: "xmark.app.fill",
                 gradient: [Color.red.opacity(0.85), Color.red.opacity(0.5)]
             )
 
             StatCard(
-                title: "Bugün",
+                title: L("home.today"),
                 value: "0",
                 icon: "calendar",
                 gradient: [Color.blue.opacity(0.8), Color.blue.opacity(0.5)]
@@ -264,10 +264,10 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Son Spam Logları")
+                    Text(L("home.recent.logs"))
                         .font(.title3.bold())
                     if !logs.isEmpty {
-                        Text("\(min(logs.count, 5)) spam")
+                        Text(Lf("home.showing.results", min(logs.count, 5)))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -278,7 +278,7 @@ struct HomeView: View {
                         AllLogsView()
                     } label: {
                         HStack(spacing: 4) {
-                            Text("Tümü")
+                            Text(L("home.all.logs"))
                             Image(systemName: "arrow.right")
                         }
                         .font(.subheadline.weight(.medium))
@@ -324,7 +324,7 @@ struct HomeView: View {
                     .foregroundColor(.white)
             }
 
-            Text("SMSpam")
+            Text(L("app.name"))
                 .font(.system(size: 17, weight: .bold, design: .rounded))
         }
         .padding(.horizontal, 16)
@@ -460,10 +460,10 @@ enum SpamType {
     
     var title: String {
         switch self {
-        case .banking: return "Banka"
-        case .gambling: return "Bahis"
-        case .suspiciousLink: return "Şüpheli Link"
-        case .general: return "Spam"
+        case .banking: return L("spam.type.banking")
+        case .gambling: return L("spam.type.gambling")
+        case .suspiciousLink: return L("spam.type.suspicious.link")
+        case .general: return L("spam.type.general")
         }
     }
     
@@ -506,11 +506,11 @@ struct EmptyStateView: View {
             }
             
             VStack(spacing: 8) {
-                Text("Spam Yok!")
+                Text(L("home.no.spam"))
                     .font(.title2.bold())
                     .foregroundColor(.primary)
                 
-                Text("Tebrikler! Henüz spam mesaj tespit edilmedi.")
+                Text(L("home.no.spam.description"))
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -519,7 +519,7 @@ struct EmptyStateView: View {
             HStack(spacing: 8) {
                 Image(systemName: "shield.checkered")
                     .foregroundColor(.green)
-                Text("Mesaj kutunuz güvende")
+                Text(L("home.messages.safe"))
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -551,16 +551,16 @@ struct LogDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Spam Mesaj")
+                        Text(L("home.spam.message"))
                             .font(.title2.bold())
 
-                        Text("Bu mesaj spam olarak tespit edildi")
+                        Text(L("home.spam.detected"))
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
 
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Mesaj İçeriği")
+                        Text(L("home.message.content"))
                             .font(.caption.weight(.semibold))
                             .foregroundColor(.secondary)
 
@@ -574,11 +574,11 @@ struct LogDetailView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Spam Detay")
+            .navigationTitle(L("home.spam.detail"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Kapat") {
+                    Button(L("close")) {
                         dismiss()
                     }
                 }
@@ -602,7 +602,7 @@ struct AllLogsView: View {
             }
         }
         .listStyle(.plain)
-        .navigationTitle("Tüm Loglar")
+        .navigationTitle(L("home.all.logs"))
         .onAppear {
             loadLogs()
         }
@@ -650,14 +650,14 @@ struct SettingsView: View {
                                 .foregroundColor(.white)
                         }
 
-                        Text("SMSpam")
+                        Text(L("app.name"))
                             .font(.headline.bold())
                     }
                     .allowsHitTesting(false)
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Kaydet") {
+                    Button(L("save")) {
                         dismiss()
                     }
                     .fontWeight(.semibold)
@@ -672,14 +672,14 @@ struct SettingsView: View {
             NavigationLink {
                 WhitelistEditorView()
             } label: {
-                Label("Whitelist Yönetimi", systemImage: "checkmark.shield")
+                Label(L("settings.whitelist.management"), systemImage: "checkmark.shield")
             }
 
-            Text("Güvenilir göndericileri buradan ekleyin. Bu numaralar asla engellenmez.")
+            Text(L("settings.whitelist.description"))
                 .font(.caption)
                 .foregroundColor(.secondary)
         } header: {
-            Label("Whitelist", systemImage: "whitelist")
+            Label(L("settings.whitelist"), systemImage: "whitelist")
         }
     }
 
@@ -688,50 +688,50 @@ struct SettingsView: View {
             NavigationLink {
                 BlockedSendersView()
             } label: {
-                Label("Engellenen Göndericiler", systemImage: "hand.raised.fill")
+                Label(L("settings.blocked.senders"), systemImage: "hand.raised.fill")
             }
 
             NavigationLink {
                 SenderRegexView()
             } label: {
-                Label("Gönderici Regex", systemImage: "number")
+                Label(L("settings.sender.regex"), systemImage: "number")
             }
 
-            Text("Gönderici numarasına uygulanan regex kuralları.")
+            Text(L("settings.sender.regex.description"))
                 .font(.caption)
                 .foregroundColor(.secondary)
 
             NavigationLink {
                 BodyRegexView()
             } label: {
-                Label("İçerik Regex", systemImage: "text.alignleft")
+                Label(L("settings.content.regex"), systemImage: "text.alignleft")
             }
 
-            Text("Mesaj içeriğine uygulanan regex kuralları. Örn: Türkçe karakter bozukluğu.")
+            Text(L("settings.content.regex.description"))
                 .font(.caption)
                 .foregroundColor(.secondary)
 
             NavigationLink {
                 BodyKeywordsView()
             } label: {
-                Label("İçerik Anahtar Kelimeler", systemImage: "text.word.spacing")
+                Label(L("settings.content.keywords"), systemImage: "text.word.spacing")
             }
 
-            Text("Spam içerebilecek anahtar kelimeler. Büyük/küçük harf duyarsız.")
+            Text(L("settings.content.keywords.description"))
                 .font(.caption)
                 .foregroundColor(.secondary)
 
             NavigationLink {
                 ShortUrlRegexView()
             } label: {
-                Label("Kısa URL Regex", systemImage: "link")
+                Label(L("settings.short.url.regex"), systemImage: "link")
             }
 
-            Text("Şüpheli kısa URL kalıpları. t2m.io, bit.ly gibi adresler.")
+            Text(L("settings.short.url.regex.description"))
                 .font(.caption)
                 .foregroundColor(.secondary)
         } header: {
-            Label("Kural Motoru", systemImage: "bolt.shield.fill")
+            Label(L("settings.rule.engine"), systemImage: "bolt.shield.fill")
         }
     }
 
@@ -740,10 +740,10 @@ struct SettingsView: View {
             NavigationLink {
                 LogSettingsView()
             } label: {
-                Label("Log Ayarları", systemImage: "doc.text")
+                Label(L("settings.log.settings"), systemImage: "doc.text")
             }
         } header: {
-            Label("Log", systemImage: "doc.text")
+            Label(L("settings.log"), systemImage: "doc.text")
         }
     }
 
@@ -752,22 +752,22 @@ struct SettingsView: View {
             NavigationLink {
                 AboutView()
             } label: {
-                Label("Hakkında", systemImage: "info.circle")
+                Label(L("settings.about"), systemImage: "info.circle")
             }
 
             NavigationLink {
                 PrivacyPolicyView()
             } label: {
-                Label("Gizlilik Politikası", systemImage: "lock.shield")
+                Label(L("settings.privacy.policy"), systemImage: "lock.shield")
             }
 
             NavigationLink {
                 TermsView()
             } label: {
-                Label("Kullanım Koşulları", systemImage: "doc.plaintext")
+                Label(L("settings.terms.of.service"), systemImage: "doc.plaintext")
             }
         } header: {
-            Label("Bilgi", systemImage: "info.circle")
+            Label(L("settings.info"), systemImage: "info.circle")
         }
     }
 }
@@ -787,7 +787,7 @@ struct WhitelistEditorView: View {
 
     var body: some View {
         List {
-            Section("Gönderici İçerikleri") {
+            Section(L("whitelist.sender.contains")) {
                 ForEach(senderContains, id: \.self) { item in
                     Text(item)
                         .font(.body.monospaced())
@@ -795,7 +795,7 @@ struct WhitelistEditorView: View {
                             Button(role: .destructive) {
                                 senderContains.removeAll { $0 == item }
                             } label: {
-                                Label("Sil", systemImage: "trash")
+                                Label(L("delete"), systemImage: "trash")
                             }
                         }
                         .swipeActions(edge: .leading) {
@@ -803,7 +803,7 @@ struct WhitelistEditorView: View {
                                 editingItem = item
                                 editText = item
                             } label: {
-                                Label("Düzenle", systemImage: "pencil")
+                                Label(L("edit"), systemImage: "pencil")
                             }
                             .tint(.orange)
                         }
@@ -812,17 +812,17 @@ struct WhitelistEditorView: View {
                 Button {
                     showAddContains = true
                 } label: {
-                    Label("Yeni Ekle", systemImage: "plus.circle.fill")
+                    Label(L("whitelist.add.new"), systemImage: "plus.circle.fill")
                         .foregroundColor(.orange)
                 }
             }
 
             Section {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Gönderici Regex")
+                    Text(L("whitelist.sender.regex"))
                         .font(.headline)
 
-                    Text("Gönderici numarasına uygulanan regex kuralları. Her satıra bir pattern yazın.")
+                    Text(L("settings.sender.regex.description"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -838,7 +838,7 @@ struct WhitelistEditorView: View {
                 Button {
                     saveConfig()
                 } label: {
-                    Text("Kaydet")
+                    Text(L("save"))
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -851,25 +851,25 @@ struct WhitelistEditorView: View {
             }
         }
         .listStyle(.insetGrouped)
-        .navigationTitle("Whitelist")
+        .navigationTitle(L("whitelist.title"))
         .onAppear(perform: loadConfig)
-        .alert("Yeni Ekle", isPresented: $showAddContains) {
-            TextField("Gönderici içeriği", text: $newSenderContains)
-            Button("İptal", role: .cancel) { newSenderContains = "" }
-            Button("Ekle") {
+        .alert(L("whitelist.add.new"), isPresented: $showAddContains) {
+            TextField(L("whitelist.enter.value"), text: $newSenderContains)
+            Button(L("cancel"), role: .cancel) { newSenderContains = "" }
+            Button(L("add")) {
                 if !newSenderContains.isEmpty {
                     senderContains.append(newSenderContains.lowercased())
                     newSenderContains = ""
                 }
             }
         }
-        .alert("Düzenle", isPresented: .init(
+        .alert(L("edit"), isPresented: .init(
             get: { editingItem != nil },
             set: { if !$0 { editingItem = nil } }
         )) {
-            TextField("Değer", text: $editText)
-            Button("İptal", role: .cancel) { editingItem = nil }
-            Button("Kaydet") {
+            TextField(L("whitelist.enter.value"), text: $editText)
+            Button(L("cancel"), role: .cancel) { editingItem = nil }
+            Button(L("save")) {
                 if let item = editingItem, let idx = senderContains.firstIndex(of: item) {
                     senderContains[idx] = editText.lowercased()
                 }
@@ -921,7 +921,7 @@ struct BlockedSendersView: View {
                         Button(role: .destructive) {
                             items.removeAll { $0 == item }
                         } label: {
-                            Label("Sil", systemImage: "trash")
+                            Label(L("delete"), systemImage: "trash")
                         }
                     }
                     .swipeActions(edge: .leading) {
@@ -929,7 +929,7 @@ struct BlockedSendersView: View {
                             editingItem = item
                             editText = item
                         } label: {
-                            Label("Düzenle", systemImage: "pencil")
+                            Label(L("edit"), systemImage: "pencil")
                         }
                         .tint(.orange)
                     }
@@ -941,31 +941,31 @@ struct BlockedSendersView: View {
             Button {
                 showAdd = true
             } label: {
-                Label("Yeni Ekle", systemImage: "plus.circle.fill")
+                Label(L("whitelist.add.new"), systemImage: "plus.circle.fill")
                     .foregroundColor(.orange)
             }
         }
         .listStyle(.insetGrouped)
-        .navigationTitle("Engellenen Göndericiler")
+        .navigationTitle(L("blocked.senders.title"))
         .onAppear(perform: loadConfig)
         .onDisappear(perform: saveConfig)
-        .alert("Yeni Ekle", isPresented: $showAdd) {
-            TextField("İçerik", text: $newItem)
-            Button("İptal", role: .cancel) { newItem = "" }
-            Button("Ekle") {
+        .alert(L("whitelist.add.new"), isPresented: $showAdd) {
+            TextField(L("whitelist.enter.value"), text: $newItem)
+            Button(L("cancel"), role: .cancel) { newItem = "" }
+            Button(L("add")) {
                 if !newItem.isEmpty {
                     items.append(newItem.lowercased())
                     newItem = ""
                 }
             }
         }
-        .alert("Düzenle", isPresented: .init(
+        .alert(L("edit"), isPresented: .init(
             get: { editingItem != nil },
             set: { if !$0 { editingItem = nil } }
         )) {
-            TextField("Değer", text: $editText)
-            Button("İptal", role: .cancel) { editingItem = nil }
-            Button("Kaydet") {
+            TextField(L("whitelist.enter.value"), text: $editText)
+            Button(L("cancel"), role: .cancel) { editingItem = nil }
+            Button(L("save")) {
                 if let item = editingItem, let idx = items.firstIndex(of: item) {
                     items[idx] = editText.lowercased()
                 }
@@ -1002,9 +1002,9 @@ struct SenderRegexView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Gönderici Regex")
+                        Text(L("settings.sender.regex"))
                             .font(.headline)
-                        Text("Gönderici numarasına uygulanan regex kuralları. Her satıra bir pattern yazın.")
+                        Text(L("settings.sender.regex.description"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -1023,7 +1023,7 @@ struct SenderRegexView: View {
             Button {
                 saveConfig()
             } label: {
-                Text("Kaydet")
+                Text(L("save"))
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -1031,7 +1031,7 @@ struct SenderRegexView: View {
                     .background(Color.orange)
             }
         }
-        .navigationTitle("Gönderici Regex")
+        .navigationTitle(L("settings.sender.regex"))
         .onAppear(perform: loadConfig)
     }
 
@@ -1067,9 +1067,9 @@ struct BodyRegexView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("İçerik Regex")
+                        Text(L("settings.content.regex"))
                             .font(.headline)
-                        Text("Mesaj içeriğine uygulanan regex kuralları. Örn: Türkçe karakter bozukluğu. Her satıra bir pattern yazın.")
+                        Text(L("settings.content.regex.description"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -1088,7 +1088,7 @@ struct BodyRegexView: View {
             Button {
                 saveConfig()
             } label: {
-                Text("Kaydet")
+                Text(L("save"))
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -1096,7 +1096,7 @@ struct BodyRegexView: View {
                     .background(Color.orange)
             }
         }
-        .navigationTitle("İçerik Regex")
+        .navigationTitle(L("settings.content.regex"))
         .onAppear(perform: loadConfig)
     }
 
@@ -1141,7 +1141,7 @@ struct BodyKeywordsView: View {
                         Button(role: .destructive) {
                             items.removeAll { $0 == item }
                         } label: {
-                            Label("Sil", systemImage: "trash")
+                            Label(L("delete"), systemImage: "trash")
                         }
                     }
                     .swipeActions(edge: .leading) {
@@ -1149,7 +1149,7 @@ struct BodyKeywordsView: View {
                             editingItem = item
                             editText = item
                         } label: {
-                            Label("Düzenle", systemImage: "pencil")
+                            Label(L("edit"), systemImage: "pencil")
                         }
                         .tint(.orange)
                     }
@@ -1161,31 +1161,31 @@ struct BodyKeywordsView: View {
             Button {
                 showAdd = true
             } label: {
-                Label("Yeni Ekle", systemImage: "plus.circle.fill")
+                Label(L("whitelist.add.new"), systemImage: "plus.circle.fill")
                     .foregroundColor(.orange)
             }
         }
         .listStyle(.insetGrouped)
-        .navigationTitle("Anahtar Kelimeler")
+        .navigationTitle(L("settings.content.keywords"))
         .onAppear(perform: loadConfig)
         .onDisappear(perform: saveConfig)
-        .alert("Yeni Kelime Ekle", isPresented: $showAdd) {
-            TextField("Kelime", text: $newItem)
-            Button("İptal", role: .cancel) { newItem = "" }
-            Button("Ekle") {
+        .alert(L("whitelist.add.new"), isPresented: $showAdd) {
+            TextField(L("whitelist.enter.value"), text: $newItem)
+            Button(L("cancel"), role: .cancel) { newItem = "" }
+            Button(L("add")) {
                 if !newItem.isEmpty {
                     items.append(newItem.lowercased())
                     newItem = ""
                 }
             }
         }
-        .alert("Düzenle", isPresented: .init(
+        .alert(L("edit"), isPresented: .init(
             get: { editingItem != nil },
             set: { if !$0 { editingItem = nil } }
         )) {
-            TextField("Kelime", text: $editText)
-            Button("İptal", role: .cancel) { editingItem = nil }
-            Button("Kaydet") {
+            TextField(L("whitelist.enter.value"), text: $editText)
+            Button(L("cancel"), role: .cancel) { editingItem = nil }
+            Button(L("save")) {
                 if let item = editingItem, let idx = items.firstIndex(of: item) {
                     items[idx] = editText.lowercased()
                 }
@@ -1222,9 +1222,9 @@ struct ShortUrlRegexView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Kısa URL Regex")
+                        Text(L("settings.short.url.regex"))
                             .font(.headline)
-                        Text("Şüpheli kısa URL kalıpları. t2m.io, bit.ly gibi adresler. Her satıra bir pattern yazın.")
+                        Text(L("settings.short.url.regex.description"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -1243,7 +1243,7 @@ struct ShortUrlRegexView: View {
             Button {
                 saveConfig()
             } label: {
-                Text("Kaydet")
+                Text(L("save"))
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -1251,7 +1251,7 @@ struct ShortUrlRegexView: View {
                     .background(Color.orange)
             }
         }
-        .navigationTitle("Kısa URL")
+        .navigationTitle(L("settings.short.url.regex"))
         .onAppear(perform: loadConfig)
     }
 
@@ -1286,13 +1286,13 @@ struct LogSettingsView: View {
     var body: some View {
         List {
             Section {
-                Stepper("Maksimum log sayısı: \(maxSpamLogs)", value: $maxSpamLogs, in: 10...5000)
+                Stepper(Lf("settings.max.spam.logs", maxSpamLogs), value: $maxSpamLogs, in: 10...5000)
             } footer: {
-                Text("Kaydedilecek maksimum spam log sayısı. Daha eski loglar otomatik silinir.")
+                Text(L("settings.max.spam.logs.description"))
             }
         }
         .listStyle(.insetGrouped)
-        .navigationTitle("Log Ayarları")
+        .navigationTitle(L("settings.log.settings"))
         .onAppear(perform: loadConfig)
         .onDisappear(perform: saveConfig)
     }
@@ -1339,12 +1339,12 @@ struct AboutView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("SMSpam")
+                        Text(L("app.name"))
                             .font(.title.bold())
-                        Text("Spam Mesaj Engelleyici")
+                        Text(L("about.spam.blocker"))
                             .font(.subheadline)
                             .foregroundColor(.secondary)
-                        Text("Versiyon 1.0.0")
+                        Text(L("about.version"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -1352,14 +1352,14 @@ struct AboutView: View {
                 .padding(.vertical, 8)
             }
 
-            Section("Özellikler") {
-                FeatureRow(icon: "bolt.shield", title: "Otomatik Spam Tespiti", desc: "SMS mesajlarınızı otomatik analiz eder")
-                FeatureRow(icon: "text.badge.checkmark", title: "Özelleştirilebilir Kurallar", desc: "Kendi kurallarınızı oluşturun")
-                FeatureRow(icon: "whitelist", title: "Whitelist Desteği", desc: "Güvenli numaraları listeye ekleyin")
-                FeatureRow(icon: "doc.text", title: "Detaylı Loglar", desc: "Engellenen spamları takip edin")
+            Section(L("about.features")) {
+                FeatureRow(icon: "bolt.shield", title: L("about.feature.automatic"), desc: L("about.feature.automatic.desc"))
+                FeatureRow(icon: "text.badge.checkmark", title: L("about.feature.customizable"), desc: L("about.feature.customizable.desc"))
+                FeatureRow(icon: "whitelist", title: L("about.feature.whitelist"), desc: L("about.feature.whitelist.desc"))
+                FeatureRow(icon: "doc.text", title: L("about.feature.logging"), desc: L("about.feature.logging.desc"))
             }
 
-            Section("İletişim") {
+            Section(L("about.contact")) {
                 Button {
                     if let url = URL(string: "mailto:inantubek@icloud.com") {
                         UIApplication.shared.open(url)
@@ -1377,7 +1377,7 @@ struct AboutView: View {
             }
         }
         .listStyle(.insetGrouped)
-        .navigationTitle("Hakkında")
+        .navigationTitle(L("about.title"))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -1415,25 +1415,15 @@ struct PrivacyPolicyView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Gizlilik Politikası")
+                Text(L("about.privacy"))
                     .font(.title.bold())
 
-                Text("""
-                Bu uygulama, spam mesajları engellemek için tasarlanmıştır.
-
-                **Veri Kullanımı:**
-                • Tüm veriler cihazınızda yerel olarak işlenir
-                • Hiçbir kişisel veri dışarı gönderilmez
-                • SMS içerikleri sadece cihazınızda analiz edilir
-
-                **Veri Güvenliği:**
-                İzniniz olmadan hiçbir veri toplanmaz. Tüm analiz işlemleri cihazınızın kendisinde gerçekleşir.
-                """)
-                .font(.body)
+                Text(L("about.privacy.content"))
+                    .font(.body)
             }
             .padding()
         }
-        .navigationTitle("Gizlilik Politikası")
+        .navigationTitle(L("about.privacy"))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -1442,31 +1432,18 @@ struct TermsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Kullanım Koşulları")
+                Text(L("about.terms"))
                     .font(.title.bold())
 
-                Text("""
-                Bu uygulamayı kullanarak aşağıdaki koşulları kabul etmiş olursunuz:
-
-                **1. Sorumluluk Reddi**
-                Uygulama 'olduğu gibi' sunulmaktadır. Geliştirici, spam engellemenin %100 başarılı olacağını garanti etmez.
-
-                **2. Yasadışı Kullanım**
-                Yasadışı amaçlarla kullanım yasaktır.
-
-                **3. Kullanım Hakkı**
-                Uygulama sadece kişisel kullanım içindir.
-                """)
-                .font(.body)
+                Text(L("about.terms.content"))
+                    .font(.body)
             }
             .padding()
         }
-        .navigationTitle("Kullanım Koşulları")
+        .navigationTitle(L("about.terms"))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
-
-// MARK: - Preview
 
 #Preview {
     ContentView()
