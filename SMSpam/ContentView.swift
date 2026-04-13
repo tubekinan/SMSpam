@@ -64,8 +64,75 @@ private extension RulesConfig {
 // MARK: - ContentView
 
 struct ContentView: View {
+    @State private var showSplash = true
+    
     var body: some View {
-        HomeView()
+        ZStack {
+            HomeView()
+                .opacity(showSplash ? 0 : 1)
+            
+            if showSplash {
+                SplashView()
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.5), value: showSplash)
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                withAnimation {
+                    showSplash = false
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Splash View
+
+struct SplashView: View {
+    @State private var scale: CGFloat = 0.5
+    @State private var opacity: Double = 0
+    
+    var body: some View {
+        ZStack {
+            Color(uiColor: .systemBackground)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 20) {
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.red.opacity(0.85), Color.red.opacity(0.5)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 120, height: 120)
+                        .shadow(color: .red.opacity(0.4), radius: 25, x: 0, y: 10)
+                    
+                    Image(systemName: "message.badge.filled.fill")
+                        .font(.system(size: 55))
+                        .foregroundColor(.white)
+                }
+                
+                Text("SMSpam")
+                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                    .foregroundColor(.primary)
+                
+                Text("Spam Mesajları Engelle")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .scaleEffect(scale)
+            .opacity(opacity)
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+                scale = 1
+                opacity = 1
+            }
+        }
     }
 }
 
@@ -172,7 +239,7 @@ struct HomeView: View {
             StatCard(
                 title: "Toplam Spam",
                 value: "\(logs.count)",
-                icon: "envelope.badge.shield.half.filled",
+                icon: "xmark.app.fill",
                 gradient: [Color.red.opacity(0.85), Color.red.opacity(0.5)]
             )
 
