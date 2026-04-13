@@ -569,7 +569,7 @@ struct LogDetailView: View {
                         Text(log)
                             .font(.body)
                             .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .frame(maxWidth: .infinity, minHeight: 180, alignment: .topLeading)
                             .background(Color(uiColor: .secondarySystemBackground))
                             .cornerRadius(12)
                     }
