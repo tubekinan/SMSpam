@@ -1,0 +1,74 @@
+/* General */
+"app.name" = "SMSpam";
+"app.version" = "Versión %@";
+"save" = "Guardar";
+"cancel" = "Cancelar";
+"close" = "Cerrar";
+"delete" = "Eliminar";
+"edit" = "Editar";
+"add" = "Añadir";
+"all" = "Todo";
+
+/* Home */
+"home.title" = "";
+"home.spam.blocker" = "Bloquear mensajes de spam";
+"home.total.spam" = "Spam total";
+"home.today" = "Hoy";
+"home.recent.logs" = "Registros de spam recientes";
+"home.showing.results" = "%d spam";
+"home.no.spam" = "¡Sin spam!";
+"home.no.spam.description" = "¡Felicitaciones! No se detectaron mensajes de spam.";
+"home.messages.safe" = "Tu bandeja de entrada está segura";
+"home.all.logs" = "Todos los registros";
+"home.spam.detail" = "Detalle de spam";
+"home.spam.message" = "Mensaje de spam";
+"home.spam.detected" = "Este mensaje fue detectado como spam";
+"home.message.content" = "Contenido del mensaje";
+
+/* Settings */
+"settings.title" = "Configuración";
+"settings.whitelist" = "Whitelist";
+"settings.whitelist.management" = "Gestión de whitelist";
+"settings.whitelist.description" = "Añada aquí remitentes de confianza. Estos números nunca serán bloqueados.";
+"settings.rule.engine" = "Motor de reglas";
+"settings.blocked.senders" = "Remitentes bloqueados";
+"settings.sender.regex" = "Regex de remitente";
+"settings.sender.regex.description" = "Reglas regex aplicadas al número de remitente. Escriba un patrón por línea.";
+"settings.content.regex" = "Regex de contenido";
+"settings.content.regex.description" = "Reglas regex aplicadas al contenido del mensaje. Escriba un patrón por línea.";
+"settings.content.keywords" = "Palabras clave de contenido";
+"settings.content.keywords.description" = "Palabras clave que pueden indicar spam. Insensible a mayúsculas/minúsculas.";
+"settings.short.url.regex" = "Regex de URL cortas";
+"settings.short.url.regex.description" = "Patrones de URL cortas sospechosos. Escriba un patrón por línea.";
+"settings.log" = "Registro";
+"settings.log.settings" = "Configuración de registro";
+"settings.max.spam.logs" = "Cantidad máxima de registros: %d";
+"settings.max.spam.logs.description" = "Cantidad máxima de registros de spam. Los registros más antiguos se eliminan automáticamente.";
+"settings.info" = "Info";
+"settings.about" = "Acerca de";
+"settings.contact" = "Contacto";
+"settings.privacy.policy" = "Política de privacidad";
+"settings.terms.of.service" = "Términos de servicio";
+
+/* Spam Types */
+"spam.type.banking" = "Bancario";
+"spam.type.gambling" = "Apuestas";
+"spam.type.suspicious.link" = "Enlace sospechoso";
+"spam.type.general" = "Spam";
+
+/* About */
+"about.title" = "Acerca de";
+"about.spam.blocker" = "Bloqueador de mensajes de spam";
+"about.version" = "Versión 1.0.0";
+"about.features" = "Características";
+"about.feature.automatic" = "Detección automática de spam";
+"about.feature.automatic.desc" = "Analiza automáticamente tus mensajes SMS";
+"about.feature.customizable" = "Reglas personalizables";
+"about.feature.customizable.desc" = "Crea tus propias reglas";
+"about.feature.whitelist" = "Soporte de whitelist";
+"about.feature.whitelist.desc" = "Añade números seguros a la lista";
+"about.feature.logging" = "Registros detallados";
+"about.feature.logging.desc" = "Rastrea el spam bloqueado";
+"about.contact" = "Contacto";
+"about.privacy" = "Política de privacidad";
+"about.terms" = "Términos de servicio";

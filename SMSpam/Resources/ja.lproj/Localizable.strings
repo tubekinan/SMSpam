@@ -1,0 +1,74 @@
+/* General */
+"app.name" = "SMSpam";
+"app.version" = "バージョン %@";
+"save" = "保存";
+"cancel" = "キャンセル";
+"close" = "閉じる";
+"delete" = "削除";
+"edit" = "編集";
+"add" = "追加";
+"all" = "すべて";
+
+/* Home */
+"home.title" = "";
+"home.spam.blocker" = "スパムメッセージをブロック";
+"home.total.spam" = "スパム合計";
+"home.today" = "今日";
+"home.recent.logs" = "最近のスパムログ";
+"home.showing.results" = "%d 件のスパム";
+"home.no.spam" = "スパムなし！";
+"home.no.spam.description" = "おめでとうございます！スパムメッセージは検出されませんでした。";
+"home.messages.safe" = "受信トレイは安全です";
+"home.all.logs" = "すべてのログ";
+"home.spam.detail" = "スパム詳細";
+"home.spam.message" = "スパムメッセージ";
+"home.spam.detected" = "このメッセージはスパムとして検出されました";
+"home.message.content" = "メッセージ内容";
+
+/* Settings */
+"settings.title" = "設定";
+"settings.whitelist" = "ホワイトリスト";
+"settings.whitelist.management" = "ホワイトリスト管理";
+"settings.whitelist.description" = "信頼できる送信者を追加してください。これらの番号は決してブロックされません。";
+"settings.rule.engine" = "ルールエンジン";
+"settings.blocked.senders" = "ブロックされた送信者";
+"settings.sender.regex" = "送信者正規表現";
+"settings.sender.regex.description" = "送信者番号に適用される正規表現ルール。1行に1つのパターンを記述してください。";
+"settings.content.regex" = "コンテンツ正規表現";
+"settings.content.regex.description" = "メッセージコンテンツに適用される正規表現ルール。1行に1つのパターンを記述してください。";
+"settings.content.keywords" = "コンテンツキーワード";
+"settings.content.keywords.description" = "スパムを示す可能性のあるキーワード。大文字と小文字を区別しません。";
+"settings.short.url.regex" = "ショートURL正規表現";
+"settings.short.url.regex.description" = "怪しいショートURLパターン。1行に1つのパターンを記述してください。";
+"settings.log" = "ログ";
+"settings.log.settings" = "ログ設定";
+"settings.max.spam.logs" = "最大ログ数：%d";
+"settings.max.spam.logs.description" = "保存するスパムログの最大数。古いログは自動的に削除されます。";
+"settings.info" = "情報";
+"settings.about" = "情報";
+"settings.contact" = "お問い合わせ";
+"settings.privacy.policy" = "プライバシーポリシー";
+"settings.terms.of.service" = "利用規約";
+
+/* Spam Types */
+"spam.type.banking" = "銀行";
+"spam.type.gambling" = "賭け";
+"spam.type.suspicious.link" = "怪しいリンク";
+"spam.type.general" = "スパム";
+
+/* About */
+"about.title" = "情報";
+"about.spam.blocker" = "スパムメッセージブロッカー";
+"about.version" = "バージョン 1.0.0";
+"about.features" = "機能";
+"about.feature.automatic" = "自動スパム検出";
+"about.feature.automatic.desc" = "SMSメッセージを自動分析";
+"about.feature.customizable" = "カスタマイズ可能なルール";
+"about.feature.customizable.desc" = "独自のルールを作成";
+"about.feature.whitelist" = "ホワイトリストサポート";
+"about.feature.whitelist.desc" = "安全な番号をリストに追加";
+"about.feature.logging" = "詳細なログ";
+"about.feature.logging.desc" = "ブロックされたスパムを追跡";
+"about.contact" = "お問い合わせ";
+"about.privacy" = "プライバシーポリシー";
+"about.terms" = "利用規約";

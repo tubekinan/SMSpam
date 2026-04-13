@@ -1,0 +1,83 @@
+/* General */
+"app.name" = "SMSpam";
+"app.version" = "Version %@";
+"save" = "Speichern";
+"cancel" = "Abbrechen";
+"close" = "Schließen";
+"delete" = "Löschen";
+"edit" = "Bearbeiten";
+"add" = "Hinzufügen";
+"all" = "Alle";
+
+/* Home */
+"home.title" = "";
+"home.spam.blocker" = "Spam-Nachrichten blockieren";
+"home.total.spam" = "Gesamte Spam";
+"home.today" = "Heute";
+"home.recent.logs" = "Letzte Spam-Protokolle";
+"home.showing.results" = "%d Spam";
+"home.no.spam" = "Kein Spam!";
+"home.no.spam.description" = "Herzlichen Glückwunsch! Keine Spam-Nachrichten erkannt.";
+"home.messages.safe" = "Ihr Posteingang ist sicher";
+"home.all.logs" = "Alle Protokolle";
+"home.spam.detail" = "Spam-Details";
+"home.spam.message" = "Spam-Nachricht";
+"home.spam.detected" = "Diese Nachricht wurde als Spam erkannt";
+"home.message.content" = "Nachrichteninhalt";
+
+/* Settings */
+"settings.title" = "Einstellungen";
+"settings.whitelist" = "Whitelist";
+"settings.whitelist.management" = "Whitelist-Verwaltung";
+"settings.whitelist.description" = "Fügen Sie hier vertrauenswürdige Absender hinzu. Diese Nummern werden niemals blockiert.";
+"settings.rule.engine" = "Regelmaschine";
+"settings.blocked.senders" = "Blockierte Absender";
+"settings.sender.regex" = "Absender-Regex";
+"settings.sender.regex.description" = "Regex-Regeln für die Absendernummer. Ein Muster pro Zeile.";
+"settings.content.regex" = "Inhalt-Regex";
+"settings.content.regex.description" = "Regex-Regeln für Nachrichteninhalt. Schreiben Sie ein Muster pro Zeile.";
+"settings.content.keywords" = "Inhalt-Schlüsselwörter";
+"settings.content.keywords.description" = "Schlüsselwörter, die auf Spam hinweisen können. Groß-/Kleinschreibung ignorieren.";
+"settings.short.url.regex" = "Kurze URL-Regex";
+"settings.short.url.regex.description" = "Verdächtige kurze URL-Muster. Schreiben Sie ein Muster pro Zeile.";
+"settings.log" = "Protokoll";
+"settings.log.settings" = "Protokolleinstellungen";
+"settings.max.spam.logs" = "Maximale Protokollanzahl: %d";
+"settings.max.spam.logs.description" = "Maximale Anzahl von Spam-Protokollen. Ältere Protokolle werden automatisch gelöscht.";
+"settings.info" = "Info";
+"settings.about" = "Über";
+"settings.contact" = "Kontakt";
+"settings.privacy.policy" = "Datenschutzrichtlinie";
+"settings.terms.of.service" = "Nutzungsbedingungen";
+
+/* Whitelist Editor */
+"whitelist.title" = "Whitelist";
+"whitelist.sender.contains" = "Absender enthält";
+"whitelist.sender.regex" = "Absender-Regex";
+"whitelist.add.new" = "Neu hinzufügen";
+"whitelist.enter.value" = "Wert eingeben";
+"whitelist.regex.pattern" = "Regex-Muster";
+"whitelist.save.success" = "Erfolgreich gespeichert";
+
+/* Spam Types */
+"spam.type.banking" = "Bank";
+"spam.type.gambling" = "Glücksspiel";
+"spam.type.suspicious.link" = "Verdächtiger Link";
+"spam.type.general" = "Spam";
+
+/* About */
+"about.title" = "Über";
+"about.spam.blocker" = "Spam-Nachrichten-Blocker";
+"about.version" = "Version 1.0.0";
+"about.features" = "Funktionen";
+"about.feature.automatic" = "Automatische Spam-Erkennung";
+"about.feature.automatic.desc" = "Analysiert Ihre SMS-Nachrichten automatisch";
+"about.feature.customizable" = "Anpassbare Regeln";
+"about.feature.customizable.desc" = "Erstellen Sie Ihre eigenen Regeln";
+"about.feature.whitelist" = "Whitelist-Unterstützung";
+"about.feature.whitelist.desc" = "Fügen Sie sichere Nummern zur Liste hinzu";
+"about.feature.logging" = "Detaillierte Protokolle";
+"about.feature.logging.desc" = "Blockierte Spam verfolgen";
+"about.contact" = "Kontakt";
+"about.privacy" = "Datenschutzrichtlinie";
+"about.terms" = "Nutzungsbedingungen";

@@ -1,0 +1,74 @@
+/* General */
+"app.name" = "SMSpam";
+"app.version" = "版本 %@";
+"save" = "保存";
+"cancel" = "取消";
+"close" = "关闭";
+"delete" = "删除";
+"edit" = "编辑";
+"add" = "添加";
+"all" = "全部";
+
+/* Home */
+"home.title" = "";
+"home.spam.blocker" = "拦截垃圾短信";
+"home.total.spam" = "垃圾短信总数";
+"home.today" = "今天";
+"home.recent.logs" = "最近的垃圾短信记录";
+"home.showing.results" = "%d 条垃圾短信";
+"home.no.spam" = "无垃圾短信！";
+"home.no.spam.description" = "恭喜！未检测到垃圾短信。";
+"home.messages.safe" = "您的收件箱是安全的";
+"home.all.logs" = "所有记录";
+"home.spam.detail" = "垃圾短信详情";
+"home.spam.message" = "垃圾短信";
+"home.spam.detected" = "此消息被检测为垃圾短信";
+"home.message.content" = "消息内容";
+
+/* Settings */
+"settings.title" = "设置";
+"settings.whitelist" = "白名单";
+"settings.whitelist.management" = "白名单管理";
+"settings.whitelist.description" = "在此添加可信发件人。这些号码永远不会被拦截。";
+"settings.rule.engine" = "规则引擎";
+"settings.blocked.senders" = "被拦截的发件人";
+"settings.sender.regex" = "发件人正则";
+"settings.sender.regex.description" = "应用于发件人号码的正则规则。每行写一个模式。";
+"settings.content.regex" = "内容正则";
+"settings.content.regex.description" = "应用于消息内容的正则规则。每行写一个模式。";
+"settings.content.keywords" = "内容关键词";
+"settings.content.keywords.description" = "可能表示垃圾短信的关键词。忽略大小写。";
+"settings.short.url.regex" = "短链接正则";
+"settings.short.url.regex.description" = "可疑的短链接模式。每行写一个模式。";
+"settings.log" = "日志";
+"settings.log.settings" = "日志设置";
+"settings.max.spam.logs" = "最大日志数量：%d";
+"settings.max.spam.logs.description" = "要存储的最大垃圾短信日志数量。较旧的日志会自动删除。";
+"settings.info" = "信息";
+"settings.about" = "关于";
+"settings.contact" = "联系";
+"settings.privacy.policy" = "隐私政策";
+"settings.terms.of.service" = "服务条款";
+
+/* Spam Types */
+"spam.type.banking" = "银行";
+"spam.type.gambling" = "赌博";
+"spam.type.suspicious.link" = "可疑链接";
+"spam.type.general" = "垃圾短信";
+
+/* About */
+"about.title" = "关于";
+"about.spam.blocker" = "垃圾短信拦截器";
+"about.version" = "版本 1.0.0";
+"about.features" = "功能";
+"about.feature.automatic" = "自动垃圾短信检测";
+"about.feature.automatic.desc" = "自动分析您的短信";
+"about.feature.customizable" = "可自定义规则";
+"about.feature.customizable.desc" = "创建您自己的规则";
+"about.feature.whitelist" = "白名单支持";
+"about.feature.whitelist.desc" = "将安全号码添加到列表";
+"about.feature.logging" = "详细日志";
+"about.feature.logging.desc" = "跟踪被拦截的垃圾短信";
+"about.contact" = "联系";
+"about.privacy" = "隐私政策";
+"about.terms" = "服务条款";

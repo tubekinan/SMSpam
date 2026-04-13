@@ -8,6 +8,14 @@
 import SwiftUI
 import Foundation
 
+func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
+func Lf(_ key: String, _ argument: CVarArg) -> String {
+    String(format: NSLocalizedString(key, comment: ""), argument)
+}
+
 private struct RulesConfig: Codable {
     var version: Int
     var whitelist: WhitelistConfig

@@ -1,0 +1,121 @@
+/* General */
+"app.name" = "SMSpam";
+"app.version" = "Version %@";
+"save" = "Save";
+"cancel" = "Cancel";
+"close" = "Close";
+"delete" = "Delete";
+"edit" = "Edit";
+"add" = "Add";
+"all" = "All";
+
+/* Home */
+"home.title" = "";
+"home.spam.blocker" = "Block Spam Messages";
+"home.total.spam" = "Total Spam";
+"home.today" = "Today";
+"home.recent.logs" = "Recent Spam Logs";
+"home.showing.results" = "%d spam";
+"home.no.spam" = "No Spam!";
+"home.no.spam.description" = "Congratulations! No spam messages detected.";
+"home.messages.safe" = "Your inbox is safe";
+"home.all.logs" = "All Logs";
+"home.spam.detail" = "Spam Detail";
+"home.spam.message" = "Spam Message";
+"home.spam.detected" = "This message was detected as spam";
+"home.message.content" = "Message Content";
+
+/* Settings */
+"settings.title" = "Settings";
+"settings.whitelist" = "Whitelist";
+"settings.whitelist.management" = "Whitelist Management";
+"settings.whitelist.description" = "Add trusted senders here. These numbers will never be blocked.";
+"settings.rule.engine" = "Rule Engine";
+"settings.blocked.senders" = "Blocked Senders";
+"settings.sender.regex" = "Sender Regex";
+"settings.sender.regex.description" = "Regex rules applied to sender number. Write one pattern per line.";
+"settings.content.regex" = "Content Regex";
+"settings.content.regex.description" = "Regex rules applied to message content. Eg: Turkish character corruption. Write one pattern per line.";
+"settings.content.keywords" = "Content Keywords";
+"settings.content.keywords.description" = "Keywords that may indicate spam. Case insensitive.";
+"settings.short.url.regex" = "Short URL Regex";
+"settings.short.url.regex.description" = "Suspicious short URL patterns. t2m.io, bit.ly etc. Write one pattern per line.";
+"settings.log" = "Log";
+"settings.log.settings" = "Log Settings";
+"settings.max.spam.logs" = "Maximum log count: %d";
+"settings.max.spam.logs.description" = "Maximum number of spam logs to store. Older logs are automatically deleted.";
+"settings.info" = "Info";
+"settings.about" = "About";
+"settings.contact" = "Contact";
+"settings.privacy.policy" = "Privacy Policy";
+"settings.terms.of.service" = "Terms of Service";
+
+/* Whitelist Editor */
+"whitelist.title" = "Whitelist";
+"whitelist.sender.contains" = "Sender Contains";
+"whitelist.sender.regex" = "Sender Regex";
+"whitelist.add.new" = "Add New";
+"whitelist.enter.value" = "Enter value";
+"whitelist.regex.pattern" = "Regex pattern";
+"whitelist.save.success" = "Saved successfully";
+
+/* Blocked Senders */
+"blocked.senders.title" = "Blocked Senders";
+"blocked.senders.header" = "Blocked Sender Contains";
+"blocked.senders.footer" = "If these contents appear in the sender address, it will be blocked. Case insensitive.";
+
+/* Spam Types */
+"spam.type.banking" = "Banking";
+"spam.type.gambling" = "Gambling";
+"spam.type.suspicious.link" = "Suspicious Link";
+"spam.type.general" = "Spam";
+
+/* About */
+"about.title" = "About";
+"about.spam.blocker" = "Spam Message Blocker";
+"about.version" = "Version 1.0.0";
+"about.features" = "Features";
+"about.feature.automatic" = "Automatic Spam Detection";
+"about.feature.automatic.desc" = "Automatically analyzes your SMS messages";
+"about.feature.customizable" = "Customizable Rules";
+"about.feature.customizable.desc" = "Create your own rules";
+"about.feature.whitelist" = "Whitelist Support";
+"about.feature.whitelist.desc" = "Add safe numbers to the list";
+"about.feature.logging" = "Detailed Logs";
+"about.feature.logging.desc" = "Track blocked spam";
+"about.contact" = "Contact";
+"about.privacy" = "Privacy Policy";
+"about.privacy.content" = """
+Privacy Policy
+
+This app is designed to block spam messages.
+
+Data Usage:
+• All data is processed locally on your device
+• No personal data is sent externally
+• SMS content is analyzed only on your device
+
+Data Security:
+No data is collected without your permission. All analysis is performed on your device itself.
+""";
+"about.terms" = "Terms of Service";
+"about.terms.content" = """
+Terms of Service
+
+By using this app, you accept the following terms:
+
+1. Disclaimer
+The app is provided 'as is'. Developer does not guarantee that spam blocking will be 100% successful.
+
+2. Illegal Use
+Illegal use is prohibited.
+
+3. Usage Rights
+The app is for personal use only.
+""";
+
+/* Time */
+"time.just.now" = "Just now";
+"time.minutes.ago" = "%d min ago";
+"time.hours.ago" = "%d hours ago";
+"time.days.ago" = "%d days ago";

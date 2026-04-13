@@ -1,0 +1,121 @@
+/* General */
+"app.name" = "SMSpam";
+"app.version" = "Sürüm %@";
+"save" = "Kaydet";
+"cancel" = "İptal";
+"close" = "Kapat";
+"delete" = "Sil";
+"edit" = "Düzenle";
+"add" = "Ekle";
+"all" = "Tümü";
+
+/* Home */
+"home.title" = "";
+"home.spam.blocker" = "Spam Mesajları Engelle";
+"home.total.spam" = "Toplam Spam";
+"home.today" = "Bugün";
+"home.recent.logs" = "Son Spam Logları";
+"home.showing.results" = "%d spam";
+"home.no.spam" = "Spam Yok!";
+"home.no.spam.description" = "Tebrikler! Henüz spam mesaj tespit edilmedi.";
+"home.messages.safe" = "Mesaj kutunuz güvende";
+"home.all.logs" = "Tümü";
+"home.spam.detail" = "Spam Detay";
+"home.spam.message" = "Spam Mesaj";
+"home.spam.detected" = "Bu mesaj spam olarak tespit edildi";
+"home.message.content" = "Mesaj İçeriği";
+
+/* Settings */
+"settings.title" = "Ayarlar";
+"settings.whitelist" = "Whitelist";
+"settings.whitelist.management" = "Whitelist Yönetimi";
+"settings.whitelist.description" = "Güvenilir göndericileri buradan ekleyin. Bu numaralar asla engellenmez.";
+"settings.rule.engine" = "Kural Motoru";
+"settings.blocked.senders" = "Engellenen Göndericiler";
+"settings.sender.regex" = "Gönderici Regex";
+"settings.sender.regex.description" = "Gönderici numarasına uygulanan regex kuralları. Her satıra bir pattern yazın.";
+"settings.content.regex" = "İçerik Regex";
+"settings.content.regex.description" = "Mesaj içeriğine uygulanan regex kuralları. Örn: Türkçe karakter bozukluğu. Her satıra bir pattern yazın.";
+"settings.content.keywords" = "İçerik Anahtar Kelimeler";
+"settings.content.keywords.description" = "Spam içerebilecek anahtar kelimeler. Büyük/küçük harf duyarsız.";
+"settings.short.url.regex" = "Kısa URL Regex";
+"settings.short.url.regex.description" = "Şüpheli kısa URL kalıpları. t2m.io, bit.ly gibi adresler. Her satıra bir pattern yazın.";
+"settings.log" = "Log";
+"settings.log.settings" = "Log Ayarları";
+"settings.max.spam.logs" = "Maksimum log sayısı: %d";
+"settings.max.spam.logs.description" = "Kaydedilecek maksimum spam log sayısı. Daha eski loglar otomatik silinir.";
+"settings.info" = "Bilgi";
+"settings.about" = "Hakkında";
+"settings.contact" = "İletişim";
+"settings.privacy.policy" = "Gizlilik Politikası";
+"settings.terms.of.service" = "Kullanım Koşulları";
+
+/* Whitelist Editor */
+"whitelist.title" = "Whitelist";
+"whitelist.sender.contains" = "Gönderici İçerikleri";
+"whitelist.sender.regex" = "Gönderici Regex";
+"whitelist.add.new" = "Yeni Ekle";
+"whitelist.enter.value" = "Değer girin";
+"whitelist.regex.pattern" = "Regex pattern";
+"whitelist.save.success" = "Başarıyla kaydedildi";
+
+/* Blocked Senders */
+"blocked.senders.title" = "Engellenen Göndericiler";
+"blocked.senders.header" = "Engellenen Gönderici İçerikleri";
+"blocked.senders.footer" = "Bu içerikler gönderici adresinde geçiyorsa engellenir. Büyük/küçük harf duyarsız.";
+
+/* Spam Types */
+"spam.type.banking" = "Banka";
+"spam.type.gambling" = "Bahis";
+"spam.type.suspicious.link" = "Şüpheli Link";
+"spam.type.general" = "Spam";
+
+/* About */
+"about.title" = "Hakkında";
+"about.spam.blocker" = "Spam Mesaj Engelleyici";
+"about.version" = "Versiyon 1.0.0";
+"about.features" = "Özellikler";
+"about.feature.automatic" = "Otomatik Spam Tespiti";
+"about.feature.automatic.desc" = "SMS mesajlarınızı otomatik analiz eder";
+"about.feature.customizable" = "Özelleştirilebilir Kurallar";
+"about.feature.customizable.desc" = "Kendi kurallarınızı oluşturun";
+"about.feature.whitelist" = "Whitelist Desteği";
+"about.feature.whitelist.desc" = "Güvenli numaraları listeye ekleyin";
+"about.feature.logging" = "Detaylı Loglar";
+"about.feature.logging.desc" = "Engellenen spamları takip edin";
+"about.contact" = "İletişim";
+"about.privacy" = "Gizlilik Politikası";
+"about.privacy.content" = """
+Gizlilik Politikası
+
+Bu uygulama, spam mesajları engellemek için tasarlanmıştır.
+
+Veri Kullanımı:
+• Tüm veriler cihazınızda yerel olarak işlenir
+• Hiçbir kişisel veri dışarı gönderilmez
+• SMS içerikleri sadece cihazınızda analiz edilir
+
+Veri Güvenliği:
+İzniniz olmadan hiçbir veri toplanmaz. Tüm analiz işlemleri cihazınızın kendisinde gerçekleşir.
+""";
+"about.terms" = "Kullanım Koşulları";
+"about.terms.content" = """
+Kullanım Koşulları
+
+Bu uygulamayı kullanarak aşağıdaki koşulları kabul etmiş olursunuz:
+
+1. Sorumluluk Reddi
+Uygulama 'olduğu gibi' sunulmaktadır. Geliştirici, spam engellemenin %100 başarılı olacağını garanti etmez.
+
+2. Yasadışı Kullanım
+Yasadışı amaçlarla kullanım yasaktır.
+
+3. Kullanım Hakkı
+Uygulama sadece kişisel kullanım içindir.
+""";
+
+/* Time */
+"time.just.now" = "Az önce";
+"time.minutes.ago" = "%d dk önce";
+"time.hours.ago" = "%d saat önce";
+"time.days.ago" = "%d gün önce";
