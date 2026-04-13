@@ -614,8 +614,18 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    HStack(spacing: 12) {
+                whitelistSection
+                rulesSection
+                logSection
+                aboutSection
+            }
+            .listStyle(.insetGrouped)
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack(spacing: 10) {
                         ZStack {
                             Circle()
                                 .fill(
@@ -625,30 +635,19 @@ struct SettingsView: View {
                                         endPoint: .bottomTrailing
                                     )
                                 )
-                                .frame(width: 48, height: 48)
+                                .frame(width: 36, height: 36)
 
                             Image(systemName: "message.badge.filled.fill")
-                                .font(.system(size: 22))
+                                .font(.system(size: 16))
                                 .foregroundColor(.white)
                         }
 
                         Text("SMSpam")
-                            .font(.title3.bold())
+                            .font(.headline.bold())
                     }
-                    .padding(.vertical, 8)
                     .allowsHitTesting(false)
                 }
-                .listRowBackground(Color.clear)
 
-                whitelistSection
-                rulesSection
-                logSection
-                aboutSection
-            }
-            .listStyle(.insetGrouped)
-            .navigationTitle("Ayarlar")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Kaydet") {
                         dismiss()
