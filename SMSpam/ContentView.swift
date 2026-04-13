@@ -1015,89 +1015,52 @@ struct BlockedSendersView: View {
 }
 
 struct SenderRegexView: View {
-    @State private var items: [String] = []
-    @State private var newItem = ""
-    @State private var showAdd = false
-    @State private var editingItem: String?
-    @State private var editText = ""
-
+    @State private var regexText: String = ""
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
-        List {
-            ForEach(items, id: \.self) { item in
-                Text(item)
-                    .font(.body.monospaced())
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(role: .destructive) {
-                            items.removeAll { $0 == item }
-                        } label: {
-                            Label("Sil", systemImage: "trash")
-                        }
-                    }
-                    .swipeActions(edge: .leading) {
-                        Button {
-                            editingItem = item
-                            editText = item
-                        } label: {
-                            Label("Düzenle", systemImage: "pencil")
-                        }
-                        .tint(.orange)
-                    }
-            }
-            .onDelete { indexSet in
-                items.remove(atOffsets: indexSet)
-            }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Gönderici Regex")
+                        .font(.headline)
+                    Text("Gönderici numarasına uygulanan regex kuralları. Her satıra bir pattern yazın.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
 
-            Button {
-                showAdd = true
-            } label: {
-                Label("Yeni Ekle", systemImage: "plus.circle.fill")
-                    .foregroundColor(.orange)
+                TextEditor(text: $regexText)
+                    .font(.system(.body, design: .monospaced))
+                    .frame(minHeight: 200)
+                    .padding(12)
+                    .background(Color(uiColor: .secondarySystemBackground))
+                    .cornerRadius(12)
+                    .scrollContentBackground(.hidden)
             }
+            .padding()
         }
-        .listStyle(.insetGrouped)
         .navigationTitle("Gönderici Regex")
         .onAppear(perform: loadConfig)
         .onDisappear(perform: saveConfig)
-        .alert("Yeni Regex Ekle", isPresented: $showAdd) {
-            TextField("Regex pattern", text: $newItem)
-            Button("İptal", role: .cancel) { newItem = "" }
-            Button("Ekle") {
-                if !newItem.isEmpty {
-                    items.append(newItem)
-                    newItem = ""
-                }
-            }
-        }
-        .alert("Düzenle", isPresented: .init(
-            get: { editingItem != nil },
-            set: { if !$0 { editingItem = nil } }
-        )) {
-            TextField("Regex", text: $editText)
-            Button("İptal", role: .cancel) { editingItem = nil }
-            Button("Kaydet") {
-                if let item = editingItem, let idx = items.firstIndex(of: item) {
-                    items[idx] = editText
-                }
-                editingItem = nil
-            }
-        }
     }
 
     private func loadConfig() {
         let defaults = UserDefaults(suiteName: appGroupSuiteName)
         guard let data = defaults?.data(forKey: rulesConfigKey),
               let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
-        items = config.rules.senderRegexes
+        regexText = config.rules.senderRegexes.joined(separator: "\n")
     }
 
     private func saveConfig() {
         let defaults = UserDefaults(suiteName: appGroupSuiteName)
         guard let data = defaults?.data(forKey: rulesConfigKey),
               var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
-        config.rules.senderRegexes = items
+        let lines = regexText
+            .components(separatedBy: "\n")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        config.rules.senderRegexes = lines
         if let newData = try? JSONEncoder().encode(config) {
             defaults?.set(newData, forKey: rulesConfigKey)
         }
@@ -1105,89 +1068,52 @@ struct SenderRegexView: View {
 }
 
 struct BodyRegexView: View {
-    @State private var items: [String] = []
-    @State private var newItem = ""
-    @State private var showAdd = false
-    @State private var editingItem: String?
-    @State private var editText = ""
-
+    @State private var regexText: String = ""
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
-        List {
-            ForEach(items, id: \.self) { item in
-                Text(item)
-                    .font(.body.monospaced())
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(role: .destructive) {
-                            items.removeAll { $0 == item }
-                        } label: {
-                            Label("Sil", systemImage: "trash")
-                        }
-                    }
-                    .swipeActions(edge: .leading) {
-                        Button {
-                            editingItem = item
-                            editText = item
-                        } label: {
-                            Label("Düzenle", systemImage: "pencil")
-                        }
-                        .tint(.orange)
-                    }
-            }
-            .onDelete { indexSet in
-                items.remove(atOffsets: indexSet)
-            }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("İçerik Regex")
+                        .font(.headline)
+                    Text("Mesaj içeriğine uygulanan regex kuralları. Örn: Türkçe karakter bozukluğu. Her satıra bir pattern yazın.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
 
-            Button {
-                showAdd = true
-            } label: {
-                Label("Yeni Ekle", systemImage: "plus.circle.fill")
-                    .foregroundColor(.orange)
+                TextEditor(text: $regexText)
+                    .font(.system(.body, design: .monospaced))
+                    .frame(minHeight: 200)
+                    .padding(12)
+                    .background(Color(uiColor: .secondarySystemBackground))
+                    .cornerRadius(12)
+                    .scrollContentBackground(.hidden)
             }
+            .padding()
         }
-        .listStyle(.insetGrouped)
         .navigationTitle("İçerik Regex")
         .onAppear(perform: loadConfig)
         .onDisappear(perform: saveConfig)
-        .alert("Yeni Regex Ekle", isPresented: $showAdd) {
-            TextField("Regex pattern", text: $newItem)
-            Button("İptal", role: .cancel) { newItem = "" }
-            Button("Ekle") {
-                if !newItem.isEmpty {
-                    items.append(newItem)
-                    newItem = ""
-                }
-            }
-        }
-        .alert("Düzenle", isPresented: .init(
-            get: { editingItem != nil },
-            set: { if !$0 { editingItem = nil } }
-        )) {
-            TextField("Regex", text: $editText)
-            Button("İptal", role: .cancel) { editingItem = nil }
-            Button("Kaydet") {
-                if let item = editingItem, let idx = items.firstIndex(of: item) {
-                    items[idx] = editText
-                }
-                editingItem = nil
-            }
-        }
     }
 
     private func loadConfig() {
         let defaults = UserDefaults(suiteName: appGroupSuiteName)
         guard let data = defaults?.data(forKey: rulesConfigKey),
               let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
-        items = config.rules.bodyRegexes
+        regexText = config.rules.bodyRegexes.joined(separator: "\n")
     }
 
     private func saveConfig() {
         let defaults = UserDefaults(suiteName: appGroupSuiteName)
         guard let data = defaults?.data(forKey: rulesConfigKey),
               var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
-        config.rules.bodyRegexes = items
+        let lines = regexText
+            .components(separatedBy: "\n")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        config.rules.bodyRegexes = lines
         if let newData = try? JSONEncoder().encode(config) {
             defaults?.set(newData, forKey: rulesConfigKey)
         }
@@ -1285,89 +1211,52 @@ struct BodyKeywordsView: View {
 }
 
 struct ShortUrlRegexView: View {
-    @State private var items: [String] = []
-    @State private var newItem = ""
-    @State private var showAdd = false
-    @State private var editingItem: String?
-    @State private var editText = ""
-
+    @State private var regexText: String = ""
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
-        List {
-            ForEach(items, id: \.self) { item in
-                Text(item)
-                    .font(.body.monospaced())
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(role: .destructive) {
-                            items.removeAll { $0 == item }
-                        } label: {
-                            Label("Sil", systemImage: "trash")
-                        }
-                    }
-                    .swipeActions(edge: .leading) {
-                        Button {
-                            editingItem = item
-                            editText = item
-                        } label: {
-                            Label("Düzenle", systemImage: "pencil")
-                        }
-                        .tint(.orange)
-                    }
-            }
-            .onDelete { indexSet in
-                items.remove(atOffsets: indexSet)
-            }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Kısa URL Regex")
+                        .font(.headline)
+                    Text("Şüpheli kısa URL kalıpları. t2m.io, bit.ly gibi adresler. Her satıra bir pattern yazın.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
 
-            Button {
-                showAdd = true
-            } label: {
-                Label("Yeni Ekle", systemImage: "plus.circle.fill")
-                    .foregroundColor(.orange)
+                TextEditor(text: $regexText)
+                    .font(.system(.body, design: .monospaced))
+                    .frame(minHeight: 200)
+                    .padding(12)
+                    .background(Color(uiColor: .secondarySystemBackground))
+                    .cornerRadius(12)
+                    .scrollContentBackground(.hidden)
             }
+            .padding()
         }
-        .listStyle(.insetGrouped)
         .navigationTitle("Kısa URL")
         .onAppear(perform: loadConfig)
         .onDisappear(perform: saveConfig)
-        .alert("Yeni Regex Ekle", isPresented: $showAdd) {
-            TextField("Regex pattern", text: $newItem)
-            Button("İptal", role: .cancel) { newItem = "" }
-            Button("Ekle") {
-                if !newItem.isEmpty {
-                    items.append(newItem)
-                    newItem = ""
-                }
-            }
-        }
-        .alert("Düzenle", isPresented: .init(
-            get: { editingItem != nil },
-            set: { if !$0 { editingItem = nil } }
-        )) {
-            TextField("Regex", text: $editText)
-            Button("İptal", role: .cancel) { editingItem = nil }
-            Button("Kaydet") {
-                if let item = editingItem, let idx = items.firstIndex(of: item) {
-                    items[idx] = editText
-                }
-                editingItem = nil
-            }
-        }
     }
 
     private func loadConfig() {
         let defaults = UserDefaults(suiteName: appGroupSuiteName)
         guard let data = defaults?.data(forKey: rulesConfigKey),
               let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
-        items = config.rules.shortUrlRegexes
+        regexText = config.rules.shortUrlRegexes.joined(separator: "\n")
     }
 
     private func saveConfig() {
         let defaults = UserDefaults(suiteName: appGroupSuiteName)
         guard let data = defaults?.data(forKey: rulesConfigKey),
               var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
-        config.rules.shortUrlRegexes = items
+        let lines = regexText
+            .components(separatedBy: "\n")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        config.rules.shortUrlRegexes = lines
         if let newData = try? JSONEncoder().encode(config) {
             defaults?.set(newData, forKey: rulesConfigKey)
         }
