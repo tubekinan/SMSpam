@@ -765,25 +765,18 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - List Editor Views with Swipe Actions
+// MARK: - Whitelist Editor View
 
 struct WhitelistEditorView: View {
     @State private var senderContains: [String] = []
-    @State private var senderRegex: [String] = []
+    @State private var senderRegexText: String = ""
     @State private var newSenderContains = ""
-    @State private var newSenderRegex = ""
     @State private var showAddContains = false
-    @State private var showAddRegex = false
     @State private var editingItem: String?
-    @State private var editingType: EditType = .contains
     @State private var editText = ""
 
     private let appGroupSuiteName = "group.com.inan.smspam"
     private let rulesConfigKey = "spam_rules_config"
-
-    enum EditType {
-        case contains, regex
-    }
 
     var body: some View {
         List {
@@ -801,7 +794,6 @@ struct WhitelistEditorView: View {
                         .swipeActions(edge: .leading) {
                             Button {
                                 editingItem = item
-                                editingType = .contains
                                 editText = item
                             } label: {
                                 Label("Düzenle", systemImage: "pencil")
@@ -818,41 +810,42 @@ struct WhitelistEditorView: View {
                 }
             }
 
-            Section("Gönderici Regex") {
-                ForEach(senderRegex, id: \.self) { item in
-                    Text(item)
-                        .font(.body.monospaced())
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                senderRegex.removeAll { $0 == item }
-                            } label: {
-                                Label("Sil", systemImage: "trash")
-                            }
-                        }
-                        .swipeActions(edge: .leading) {
-                            Button {
-                                editingItem = item
-                                editingType = .regex
-                                editText = item
-                            } label: {
-                                Label("Düzenle", systemImage: "pencil")
-                            }
-                            .tint(.orange)
-                        }
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Gönderici Regex")
+                        .font(.headline)
+
+                    Text("Gönderici numarasına uygulanan regex kuralları. Her satıra bir pattern yazın.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
 
+                TextEditor(text: $senderRegexText)
+                    .font(.system(.body, design: .monospaced))
+                    .frame(minHeight: 200)
+                    .padding(8)
+                    .background(Color(uiColor: .secondarySystemBackground))
+                    .cornerRadius(8)
+                    .scrollContentBackground(.hidden)
+
                 Button {
-                    showAddRegex = true
+                    saveConfig()
                 } label: {
-                    Label("Yeni Ekle", systemImage: "plus.circle.fill")
-                        .foregroundColor(.orange)
+                    Text("Kaydet")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.orange)
+                        .cornerRadius(12)
                 }
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
             }
         }
         .listStyle(.insetGrouped)
         .navigationTitle("Whitelist")
         .onAppear(perform: loadConfig)
-        .onDisappear(perform: saveConfig)
         .alert("Yeni Ekle", isPresented: $showAddContains) {
             TextField("Gönderici içeriği", text: $newSenderContains)
             Button("İptal", role: .cancel) { newSenderContains = "" }
@@ -863,16 +856,6 @@ struct WhitelistEditorView: View {
                 }
             }
         }
-        .alert("Yeni Regex Ekle", isPresented: $showAddRegex) {
-            TextField("Regex pattern", text: $newSenderRegex)
-            Button("İptal", role: .cancel) { newSenderRegex = "" }
-            Button("Ekle") {
-                if !newSenderRegex.isEmpty {
-                    senderRegex.append(newSenderRegex)
-                    newSenderRegex = ""
-                }
-            }
-        }
         .alert("Düzenle", isPresented: .init(
             get: { editingItem != nil },
             set: { if !$0 { editingItem = nil } }
@@ -880,17 +863,8 @@ struct WhitelistEditorView: View {
             TextField("Değer", text: $editText)
             Button("İptal", role: .cancel) { editingItem = nil }
             Button("Kaydet") {
-                if let item = editingItem {
-                    switch editingType {
-                    case .contains:
-                        if let idx = senderContains.firstIndex(of: item) {
-                            senderContains[idx] = editText.lowercased()
-                        }
-                    case .regex:
-                        if let idx = senderRegex.firstIndex(of: item) {
-                            senderRegex[idx] = editText
-                        }
-                    }
+                if let item = editingItem, let idx = senderContains.firstIndex(of: item) {
+                    senderContains[idx] = editText.lowercased()
                 }
                 editingItem = nil
             }
@@ -902,7 +876,7 @@ struct WhitelistEditorView: View {
         guard let data = defaults?.data(forKey: rulesConfigKey),
               let config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
         senderContains = config.whitelist.senderContains
-        senderRegex = config.whitelist.senderRegex
+        senderRegexText = config.whitelist.senderRegex.joined(separator: "\n")
     }
 
     private func saveConfig() {
@@ -910,7 +884,11 @@ struct WhitelistEditorView: View {
         guard let data = defaults?.data(forKey: rulesConfigKey),
               var config = try? JSONDecoder().decode(RulesConfig.self, from: data) else { return }
         config.whitelist.senderContains = senderContains
-        config.whitelist.senderRegex = senderRegex
+        let lines = senderRegexText
+            .components(separatedBy: "\n")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        config.whitelist.senderRegex = lines
         if let newData = try? JSONEncoder().encode(config) {
             defaults?.set(newData, forKey: rulesConfigKey)
         }
