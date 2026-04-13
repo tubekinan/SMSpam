@@ -991,29 +991,41 @@ struct SenderRegexView: View {
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Gönderici Regex")
-                        .font(.headline)
-                    Text("Gönderici numarasına uygulanan regex kuralları. Her satıra bir pattern yazın.")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Gönderici Regex")
+                            .font(.headline)
+                        Text("Gönderici numarasına uygulanan regex kuralları. Her satıra bir pattern yazın.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
 
-                TextEditor(text: $regexText)
-                    .font(.system(.body, design: .monospaced))
-                    .frame(minHeight: 200)
-                    .padding(12)
-                    .background(Color(uiColor: .secondarySystemBackground))
-                    .cornerRadius(12)
-                    .scrollContentBackground(.hidden)
+                    TextEditor(text: $regexText)
+                        .font(.system(.body, design: .monospaced))
+                        .frame(minHeight: 200)
+                        .padding(12)
+                        .background(Color(uiColor: .secondarySystemBackground))
+                        .cornerRadius(12)
+                        .scrollContentBackground(.hidden)
+                }
+                .padding()
             }
-            .padding()
+
+            Button {
+                saveConfig()
+            } label: {
+                Text("Kaydet")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.orange)
+            }
         }
         .navigationTitle("Gönderici Regex")
         .onAppear(perform: loadConfig)
-        .onDisappear(perform: saveConfig)
     }
 
     private func loadConfig() {
@@ -1044,29 +1056,41 @@ struct BodyRegexView: View {
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("İçerik Regex")
-                        .font(.headline)
-                    Text("Mesaj içeriğine uygulanan regex kuralları. Örn: Türkçe karakter bozukluğu. Her satıra bir pattern yazın.")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("İçerik Regex")
+                            .font(.headline)
+                        Text("Mesaj içeriğine uygulanan regex kuralları. Örn: Türkçe karakter bozukluğu. Her satıra bir pattern yazın.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
 
-                TextEditor(text: $regexText)
-                    .font(.system(.body, design: .monospaced))
-                    .frame(minHeight: 200)
-                    .padding(12)
-                    .background(Color(uiColor: .secondarySystemBackground))
-                    .cornerRadius(12)
-                    .scrollContentBackground(.hidden)
+                    TextEditor(text: $regexText)
+                        .font(.system(.body, design: .monospaced))
+                        .frame(minHeight: 200)
+                        .padding(12)
+                        .background(Color(uiColor: .secondarySystemBackground))
+                        .cornerRadius(12)
+                        .scrollContentBackground(.hidden)
+                }
+                .padding()
             }
-            .padding()
+
+            Button {
+                saveConfig()
+            } label: {
+                Text("Kaydet")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.orange)
+            }
         }
         .navigationTitle("İçerik Regex")
         .onAppear(perform: loadConfig)
-        .onDisappear(perform: saveConfig)
     }
 
     private func loadConfig() {
@@ -1187,29 +1211,41 @@ struct ShortUrlRegexView: View {
     private let rulesConfigKey = "spam_rules_config"
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Kısa URL Regex")
-                        .font(.headline)
-                    Text("Şüpheli kısa URL kalıpları. t2m.io, bit.ly gibi adresler. Her satıra bir pattern yazın.")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Kısa URL Regex")
+                            .font(.headline)
+                        Text("Şüpheli kısa URL kalıpları. t2m.io, bit.ly gibi adresler. Her satıra bir pattern yazın.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
 
-                TextEditor(text: $regexText)
-                    .font(.system(.body, design: .monospaced))
-                    .frame(minHeight: 200)
-                    .padding(12)
-                    .background(Color(uiColor: .secondarySystemBackground))
-                    .cornerRadius(12)
-                    .scrollContentBackground(.hidden)
+                    TextEditor(text: $regexText)
+                        .font(.system(.body, design: .monospaced))
+                        .frame(minHeight: 200)
+                        .padding(12)
+                        .background(Color(uiColor: .secondarySystemBackground))
+                        .cornerRadius(12)
+                        .scrollContentBackground(.hidden)
+                }
+                .padding()
             }
-            .padding()
+
+            Button {
+                saveConfig()
+            } label: {
+                Text("Kaydet")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.orange)
+            }
         }
         .navigationTitle("Kısa URL")
         .onAppear(perform: loadConfig)
-        .onDisappear(perform: saveConfig)
     }
 
     private func loadConfig() {
