@@ -541,18 +541,8 @@ struct LogDetailView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    ZStack {
-                        Circle()
-                            .fill(Color.red.opacity(0.15))
-                            .frame(width: 80, height: 80)
-
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .font(.system(size: 40))
-                            .foregroundColor(.red)
-                    }
-
-                    VStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 8) {
                         Text("Spam Mesaj")
                             .font(.title2.bold())
 
@@ -569,13 +559,12 @@ struct LogDetailView: View {
                         Text(log)
                             .font(.body)
                             .padding()
-                            .frame(maxWidth: .infinity, minHeight: 180, alignment: .topLeading)
+                            .frame(maxWidth: .infinity, minHeight: 200, alignment: .topLeading)
                             .background(Color(uiColor: .secondarySystemBackground))
                             .cornerRadius(12)
                     }
-                    .padding(.horizontal)
                 }
-                .padding(.vertical, 32)
+                .padding()
             }
             .navigationTitle("Spam Detay")
             .navigationBarTitleDisplayMode(.inline)
