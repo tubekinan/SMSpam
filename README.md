@@ -18,11 +18,9 @@ Your support helps keep this project alive and improving!
 
 ## Screenshots
 
-*Note: These are mockup previews. Actual screenshots will be added soon.*
-
 | Home Screen | Settings |
 |:-----------:|:--------:|
-| ![Home](screenshots/home.png) | ![Settings](screenshots/settings.png) |
+| ![Home](screenshots/SMSpam-SS-Home.PNG) | ![Settings](screenshots/SMSpam-SS-Settings.PNG) |
 
 ## About
 
