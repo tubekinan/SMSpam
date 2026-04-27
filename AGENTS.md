@@ -1,67 +1,67 @@
-# Agents Configuration
+# Ajanlar Yapilandirmasi
 
-This file contains instructions for automated agents (like OpenCode) working on this repository.
+Bu dosya, bu depoda calisan otomatik ajanlar (OpenCode gibi) icin talimatlar icerir.
 
-## General Guidelines
+## Genel Yonergeler
 
-- Always respect the existing code style and conventions
-- Make minimal, focused changes
-- Ensure any new code is properly tested
-- Update documentation when relevant
-- Do not modify the TODO.md file except through the designated update process
+- Her zaman mevcut kod stilini ve kurallarini saygi gosterin
+- Minimal, odakli degisiklikler yapin
+- Yeni kodun duzgun sekilde test edildiginden emin olun
+- Belgelemeyi ilgili oldugunda guncelleyin
+- TODO.md dosyasini, belirtilen guncelleme sureci disinda degistirmeyin
 
-## Task Types
+## Gorev Tipleri
 
-When working on issues, please follow these patterns:
+Sorunlar uzerinde calisirken lutfen bu kaliplari izleyin:
 
-### Bug Fixes
-1. Write a test that reproduces the issue
-2. Fix the bug
-3. Ensure all tests pass
-4. Update any relevant documentation
+### Hata Duzeltmeleri
+1. Sorunu yeniden olusturan bir test yazin
+2. Hatayi duzeltin
+3. Tum testlerin gectiginden emin olun
+4. Ilgili belgelemeyi guncelleyin
 
-### Feature Implementation
-1. Check if design documents exist
-2. Implement the feature following existing patterns
-3. Add tests for new functionality
-4. Update user documentation
-5. Update API documentation if applicable
+### Ozellik Uygulamasi
+1. Tasarim belgelerinin varligini kontrol edin
+2. Mevcut kaliplari takip ederek ozelligi uygulayin
+3. Yeni islevsellik icin testler ekleyin
+4. Kullanici belgelerini guncelleyin
+5. Uygulanabilirse API belgelerini guncelleyin
 
-### Refactoring
-1. Ensure existing tests pass before refactoring
-2. Make small, incremental changes
-3. Run tests frequently
-4. Update documentation if interfaces change
+### Yeniden Yapilandirma
+1. Yeniden yapilandirmadan once mevcut testlerin gectiginden emin olun
+2. Kucuk, artimli degisiklikler yapin
+3. Testleri sik sik calistirin
+4. Arayuzler degisirse belgelemeyi guncelleyin
 
-## Commands
+## Komutlar
 
-Commonly used commands:
-- `swift test` - Run unit tests
-- `swift lint` - Run SwiftLint (if configured)
-- `xcodebuild test` - Run tests via xcodebuild
+Sik kullanilan komutlar:
+- `swift test` - Birim testlerini calistirin
+- `swift lint` - SwiftLint'i calistirin (yapilandirilmissa)
+- `xcodebuild test` - Testleri xcodebuild uzerinden calistirin
 
-## Documentation
+## Belgeleme
 
-When updating documentation:
-- Keep it concise and accurate
-- Use the same tone as existing docs
-- Update both in-code comments and external documentation
-- Ensure screenshots are updated if UI changes
+Belgelemeyi guncellerken:
+- Kisa ve dogru tutun
+- Mevcut belgelerin tonunu kullanin
+- Hem kod ici yorumlari hem de harici belgeleri guncelleyin
+- UI degisiklikleri oldugunda ekran goruntulerini guncelleyin
 
-## Code Style
+## Kod Stili
 
-Follow the existing Swift style in the project:
-- Use 4 spaces for indentation
-- Prefer explicit types when they improve readability
-- Use guard clauses for early exits
-- Mark IBOutlets and IBActions appropriately
-- Keep lines under 120 characters when possible
+Projedeki mevcut Swift stilini izleyin:
+- Girinti icin 4 bosluk kullanin
+- Okunurlugunu artirsa acik turleri tercih edin
+- Erken cikislar icin guard sartlarini kullanin
+- IBOutlets ve IBActions'i uygun sekilde isaretleyin
+- Mumkun oldugunda satirlari 120 karakterin altinda tutun
 
-## Commit Messages
+## Commit Mesajlari
 
-Write clear, descriptive commit messages:
-- Start with a capital letter
-- Use imperative mood ("Add feature" not "Added feature")
-- Keep subject line under 72 characters
-- Include a brief explanation in the body if needed
-- Reference issue numbers when applicable: "Fixes #123"
+Acik ve aciklayici commit mesajlari yazin:
+- Buyuk harfle baslayin
+- Istek kipi kullanin ("Ekle ozellik" not "Eklendi ozellik")
+- Konu satirini 72 karakterin altinda tutun
+- Gerekirse vucutta kisa bir aciklama ekleyin
+- Uygulanabilirse issue numaralarina referans verin: "Duzeltme #123"
