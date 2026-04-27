@@ -1,67 +1,58 @@
-# Ajanlar Yapilandirmasi
+# Ajanlar Yapılandırması
 
-Bu dosya, bu depoda calisan otomatik ajanlar (OpenCode gibi) icin talimatlar icerir.
+Bu dosya, bu depoda çalışan otomatik ajanlar (OpenCode gibi) için talimatlar içerir.
 
-## Genel Yonergeler
+## Genel Yönergeler
 
-- Her zaman mevcut kod stilini ve kurallarini saygi gosterin
-- Minimal, odakli degisiklikler yapin
-- Yeni kodun duzgun sekilde test edildiginden emin olun
-- Belgelemeyi ilgili oldugunda guncelleyin
-- TODO.md dosyasini, belirtilen guncelleme sureci disinda degistirmeyin
+- Her zaman mevcut kod stilini ve kurallarını saygı gösterin
+- Minimal, odaklı değişiklikler yapın
+- Yeni kodun düzgün şekilde test edildiğinden emin olun
+- Belgelemeyi ilgili olduğunda güncelleyin
+- TODO.md dosyasını, belirtilen güncelleme süreci dışında değiştirmeyin
 
-## Gorev Tipleri
+## Görev Tipleri
 
-Sorunlar uzerinde calisirken lutfen bu kaliplari izleyin:
+Sorunlar üzerinde çalışırken lütfen bu kalıpları izleyin:
 
-### Hata Duzeltmeleri
-1. Sorunu yeniden olusturan bir test yazin
-2. Hatayi duzeltin
-3. Tum testlerin gectiginden emin olun
-4. Ilgili belgelemeyi guncelleyin
+### Hata Düzeltmeleri
+1. Sorunu yeniden oluşturan bir Unit test yazın
+2. Hatayı düzeltin
+3. Tüm testlerin geçtiğinden emin olun
+4. İlgili belgelemeyi güncelleyin
 
-### Ozellik Uygulamasi
-1. Tasarim belgelerinin varligini kontrol edin
-2. Mevcut kaliplari takip ederek ozelligi uygulayin
-3. Yeni islevsellik icin testler ekleyin
-4. Kullanici belgelerini guncelleyin
-5. Uygulanabilirse API belgelerini guncelleyin
+### Özellik Uygulaması
+1. Tasarım belgelerinin varlığını kontrol edin
+2. Mevcut kalıpları takip ederek özelliği uygulayın
+3. Yeni işlevsellik için Unit testler ekleyin
+4. Kullanıcı belgelerini güncelleyin
+5. Uygulanabilirse API belgelerini güncelleyin
 
-### Yeniden Yapilandirma
-1. Yeniden yapilandirmadan once mevcut testlerin gectiginden emin olun
-2. Kucuk, artimli degisiklikler yapin
-3. Testleri sik sik calistirin
-4. Arayuzler degisirse belgelemeyi guncelleyin
+### Yeniden Yapılandırma
+1. Yeniden yapılandırmadan önce mevcut testlerin geçtiğinden emin olun
+2. Küçük, artımlı değişiklikler yapın
+3. Testleri sık sık çalıştırın
+4. Arayüzler değişirse belgelemeyi güncelleyin
 
 ## Komutlar
 
-Sik kullanilan komutlar:
-- `swift test` - Birim testlerini calistirin
-- `swift lint` - SwiftLint'i calistirin (yapilandirilmissa)
-- `xcodebuild test` - Testleri xcodebuild uzerinden calistirin
+Sık kullanılan komutlar:
+- `swift test` - Unit testlerini çalıştırın
+- `swift lint` - SwiftLint'i çalıştırın (yapılandırılmışsa)
+- `xcodebuild test` - Testleri xcodebuild üzerinden çalıştırın
 
 ## Belgeleme
 
-Belgelemeyi guncellerken:
-- Kisa ve dogru tutun
-- Mevcut belgelerin tonunu kullanin
-- Hem kod ici yorumlari hem de harici belgeleri guncelleyin
-- UI degisiklikleri oldugunda ekran goruntulerini guncelleyin
+Belgelemeyi güncellerken:
+- Kısa ve doğru tutun
+- Mevcut belgelerin tonunu kullanın
+- Hem kod içi yorumları hem de harici belgeleri güncelleyin
+- UI değişiklikleri olduğunda ekran görüntülerini güncelleyin
 
 ## Kod Stili
 
-Projedeki mevcut Swift stilini izleyin:
-- Girinti icin 4 bosluk kullanin
-- Okunurlugunu artirsa acik turleri tercih edin
-- Erken cikislar icin guard sartlarini kullanin
-- IBOutlets ve IBActions'i uygun sekilde isaretleyin
-- Mumkun oldugunda satirlari 120 karakterin altinda tutun
-
-## Commit Mesajlari
-
-Acik ve aciklayici commit mesajlari yazin:
-- Buyuk harfle baslayin
-- Istek kipi kullanin ("Ekle ozellik" not "Eklendi ozellik")
-- Konu satirini 72 karakterin altinda tutun
-- Gerekirse vucutta kisa bir aciklama ekleyin
-- Uygulanabilirse issue numaralarina referans verin: "Duzeltme #123"
+Projedeki mevcut Swift style izleyin:
+- Girinti için 4 boşluk kullanın
+- Okunurluğunu artırsa açık türleri tercih edin
+- Erken çıkışlar için guard şartlarını kullanın
+- IBOutlets ve IBActions'i uygun şekilde işaretleyin
+- Mümkün olduğunda satırları 120 karakterin altında tutun
