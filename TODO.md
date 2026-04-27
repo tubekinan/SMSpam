@@ -38,7 +38,7 @@
 8. **Belgeler**
    - API dokumantasyonu eksik
    - Gelistirici kilavuzu guncel degil
-   - Katkida bulunanlar icin kodスタイル rehberi eksik
+   - Katkida bulunanlar icin kodstil rehberi eksik
 
 ## Dokumantasyon Gelistirme Notlari
 
