@@ -9,6 +9,7 @@ Bu dosya, bu depoda çalışan otomatik ajanlar (OpenCode gibi) için talimatlar
 - Yeni kodun düzgün şekilde test edildiğinden emin olun
 - Belgelemeyi ilgili olduğunda güncelleyin
 - TODO.md dosyasını, belirtilen güncelleme süreci dışında değiştirmeyin
+- Tüm yanıtlar Türkçe verilecek
 
 ## Görev Tipleri
 
