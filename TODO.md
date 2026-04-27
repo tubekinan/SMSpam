@@ -1,47 +1,47 @@
-# TODO - Geliştirme ve İyileştirme Önerileri
+# TODO - Gelistirme ve Iyilestirme Onerileri
 
 ## Tespit Edilen Eksiklikler
 
-1. **Test Eksikliği**
-   - Birim testleri (Unit Tests) bulunmamaktadır
+1. **Test Eksikligi**
+   - Birim testleri (Unit Tests) bulunmamaktadir
    - UI testleri yoktur
-   - Spam filtreleme mantığı için otomatik testler gerekir
+   - Spam filtreleme mantigi icin otomatik testler gerekir
 
-2. **CI/CD Pipeline Eksikliği**
-   - Otomatik build ve test için GitHub Actions yapılandırılmamış
-   - Kod kalitesi kontrolü (linting) otomatikleştirilmemiş
+2. **CI/CD Pipeline Eksikligi**
+   - Otomatik build ve test icin GitHub Actions yapilandirilmamis
+   - Kod kalitesi kontrolu (linting) otomatiklestirilmemis
 
-3. **Performans İzleme**
-   - Uzantının performans metrikleri toplanmamaktadır
-   - Bellek kullanımı ve CPU tüketimi izlenmemektedir
+3. **Performans Izleme**
+   - Uzantinin performans metrikleri toplanmamaktadir
+   - Bellek kullanimi ve CPU tuketimi izlenmemektedir
 
-4. **Eksik Özellikler**
-   - Spam istatistiklerinin detaylı görselleştirmesi
-   - Yedekleme/geri yükleme fonksiyonu
-   - Şifreli yedekleme seçeneği
-   - Bildirim özelleştirme (spam engellendiğinde farklı sesler)
+4. **Eksik Ozellikler**
+   - Spam istatistiklerinin detayli gorsellestirmesi
+   - Yedekleme/geri yukleme fonksiyonu
+   - Sifreli yedekleme secenegi
+   - Bildirim ozellestirme (spam engellendiginde farkli sesler)
 
-5. **Kullanıcı Deneyimi İyileştirmeleri**
-   - Onboarding/tutorial ekranı
-   - Boş durum görünümlerinde daha fazla bilgilendirme
-   - Hızlı eylemler (quick actions) için 3D Touch/lengthy press desteği
+5. **Kullanici Deneyimi Iyilestirmeleri**
+   - Onboarding/tutorial ekrani
+   - Bos durum gorunumlerinde daha fazla bilgilendirme
+   - Hizli eylemler (quick actions) icin 3D Touch/lengthy press destegi
 
-6. **Gizlilik ve Güvenlik**
+6. **Gizlilik ve Guvenlik**
    - App Privacy etiketleri App Store Connect'te eksik
-   - Veri koruma sınıfları (Data Protection) belirtilmemiş
-   - Hassas veri (spam logları) için ek koruma gerekli
+   - Veri koruma siniflari (Data Protection) belirtilmemis
+   - Hassas veri (spam loglari) icin ek koruma gerekli
 
-7. **Uluslararasılaştırma (i18n)**
-   - Yerelleştirilmiş stringlerin tamamı kontrol edilmemiş
-   - Bazı hardcoded stringler olabilir
+7. **Uluslararasilastirma (i18n)**
+   - Yerellestirilmis stringlerin tamami kontrol edilmemis
+   - Bazi hardcoded stringler olabilir
 
 8. **Belgeler**
-   - API dokümantasyonu eksik
-   - Geliştirici kılavuzu güncel değil
-   - Katkıda bulunanlar için kodスタイル rehberi eksik
+   - API dokumantasyonu eksik
+   - Gelistirici kilavuzu guncel degil
+   - Katkida bulunanlar icin kodスタイル rehberi eksik
 
-## Dokümantasyon Geliştirme Notları
+## Dokumantasyon Gelistirme Notlari
 
-Aşağıdaki bölümde DOCS klasöründeki dosyalardan tespit edilen geliştirme notları ve tamamlanmamış bölümler yer alacaktır.
+Asagidaki bolumde DOCS klasorundeki dosyalardan tespit edilen gelistirme notlari ve tamamlanmamis bolumler yer alacaktir.
 
 - Docs/Phases/Phase2.md: Update this doc to match your final role logic.
