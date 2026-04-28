@@ -88,7 +88,7 @@
 "about.privacy" = "Gizlilik Politikası";
 "about.privacy.content" = "Gizlilik Politikası\n\nBu uygulama, spam mesajları engellemek için tasarlanmıştır.\n\nVeri Kullanımı:\n• Tüm veriler cihazınızda yerel olarak işlenir\n• Hiçbir kişisel veri dışarı gönderilmez\n• SMS içerikleri sadece cihazınızda analiz edilir\n\nVeri Güvenliği:\nİzniniz olmadan hiçbir veri toplanmaz. Tüm analiz işlemleri cihazınızın kendisinde gerçekleşir.";
 "about.terms" = "Kullanım Koşulları";
-"about.terms.content" = "Kullanım Koşulları\n\nBu uygulamayı kullanarak aşağıdaki koşulları kabul etmiş olursunuz:\n\n1. Sorumluluk Reddi\nUygulama 'olduğu gibi' sunulmaktadır. Geliştirici, spam engellemenin %100 başarılı olacağını garanti etmez.\n\n2. Yasadışı Kullanım\nYasadışı amaçlarla kullanım yasaktır.\n\n3. Kullanım Hakkı\nUygulama sadece kişisel kullanım içindir.";
+"about.terms.content" = "Kullanım Koşulları\n\nBu uygulamayı kullanarak aşağıdaki koşulları kabul etmiş olursunuz:\n\n1. Sorumluluk Reddi\nUygulama 'olduğu gibi' sunulmaktadır. Geliştirici, spam engellemenin %100 başarılı olacağını  etmez.\n\n2. Yasadışı Kullanım\nYasadışı amaçlarla kullanım yasaktır.\n\n3. Kullanım Hakkı\nUygulama sadece kişisel kullanım içindir.";
 
 /* Time */
 "time.just.now" = "Az önce";

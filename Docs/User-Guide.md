@@ -66,7 +66,7 @@ Add sender names/numbers to block:
 ```
 xbank
 ybank
-garanti
+
 ```
 
 #### Sender Regex
