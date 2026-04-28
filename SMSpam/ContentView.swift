@@ -34,7 +34,7 @@ private struct LoggingConfig: Codable {
 
 private extension RulesConfig {
     static let defaultConfig: RulesConfig = {
-        let blockedSenders = ["xbank", "ybank", "ybankasi", "finansbank", "fibabanka"]
+        let blockedSenders = ["xbank", "ybank", "ybankasi", "", ""]
         let spamSenderPattern = "(\\+90[\\s\\-]?\\(?850\\)?|0850|90850)"
         let corruptTurkishPattern = "[A-Z]+i[A-Z]+"
         let gamblingKeywords = [

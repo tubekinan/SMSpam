@@ -83,8 +83,8 @@ Catches other spam types:
 xbank
 ybank
 ybankasi
-finansbank
-fibabanka
+
+
 ```
 
 ### Spam Patterns

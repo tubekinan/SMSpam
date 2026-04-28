@@ -117,7 +117,7 @@ Customize spam detection:
 
 ### Blocked Senders
 Common Turkish bank names and spam senders:
-- xbank, ybank, ybankasi, finansbank, fibabanka
+- xbank, ybank, ybankasi, , 
 
 ### Spam Patterns
 - Turkish spam number format: `(\+90[\s\-]?\(?850\)?|0850|90850)`
