@@ -52,7 +52,7 @@ extension MessageFilterExtension: ILMessageFilterQueryHandling, ILMessageFilterC
     }
 
     private static let defaultRulesConfig: RulesConfig = {
-        let blockedSenders = ["akbank", "isbank", "isbankasi", "finansbank", "fibabanka"]
+        let blockedSenders = ["xbank", "ybank", "ybankasi", "finansbank", "fibabanka"]
         let spamSenderPattern = "(\\+90[\\s\\-]?\\(?850\\)?|0850|90850)"
         let corruptTurkishPattern = "[A-Z]+i[A-Z]+"
 

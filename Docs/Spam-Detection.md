@@ -80,9 +80,9 @@ Catches other spam types:
 
 ### Blocked Senders
 ```
-akbank
-isbank
-isbankasi
+xbank
+ybank
+ybankasi
 finansbank
 fibabanka
 ```

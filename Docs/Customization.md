@@ -12,10 +12,10 @@ Customize SMSpam to match your needs.
 
 ### Examples
 ```
-akbank
-isbank
+xbank
+ybank
 spam123
-+90 555 123 4567
++90 555 555 5555
 ```
 
 ## Regex Rules

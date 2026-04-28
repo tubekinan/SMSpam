@@ -64,8 +64,8 @@ Customize how spam is detected.
 
 Add sender names/numbers to block:
 ```
-akbank
-isbank
+xbank
+ybank
 garanti
 ```
 
